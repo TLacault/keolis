@@ -1,3 +1,4 @@
+<!-- fullWidth: true tocVisible: false tableWrap: true -->
 # Les 4 prix
 
 > Source : `prix.jpg`

@@ -27,3 +27,16 @@
 - ★ **Trop d'informations** → synchronisation, et → **simplifier la perception** + autonomie ?
 - ★ **Réassurance** → **pas de stigmatisation** → **nouveaux supports**
 - ★ **Expliquer tout le parcours** → numérique + didactique ?
+
+
+## Simplification appli
+
+### Preparation
+
+- input field voc / appel telephonique -> Standard IA -> generation Trajet -> Notif Popup
+*click redirect sur l'app avec trajet enregistrer et pret a démarrer
+
+
+### Arrivé à Quai
+
+### Dans le transport
