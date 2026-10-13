@@ -1,0 +1,118 @@
+<script setup lang="ts">
+import { AnimatePresence, motion } from 'motion-v'
+import { LifeBuoy, Volume2, VolumeX } from 'lucide-vue-next'
+
+type Screen = 'welcome' | 'home' | 'preview' | 'guide' | 'arrived'
+
+const seen = (() => { try { return localStorage.getItem('ca-welcome') === '1' } catch { return false } })()
+const screen = ref<Screen>(seen ? 'home' : 'welcome')
+const trip = ref<Trip | null>(null)
+const step = ref(-1)
+const me = ref<LatLng | null>(null)
+const realGps = ref<LatLng | null>(null)
+const help = ref(false)
+
+// ponytail: real GPS only replaces the demo "home" when you're actually in Bordeaux; the guided part is simulated.
+const nearBordeaux = (p: LatLng) => Math.abs(p[0] - 44.84) < 0.15 && Math.abs(p[1] + 0.58) < 0.2
+
+function startGps() {
+  navigator.geolocation?.watchPosition(
+    (p) => {
+      realGps.value = [p.coords.latitude, p.coords.longitude]
+      if (screen.value === 'home' || screen.value === 'welcome') me.value = nearBordeaux(realGps.value) ? realGps.value : HOME.at
+    },
+    () => { me.value ??= HOME.at },
+    { enableHighAccuracy: true, maximumAge: 5000 },
+  )
+}
+onMounted(() => { me.value = HOME.at; if (seen) startGps() })
+
+function welcomeDone() {
+  try { localStorage.setItem('ca-welcome', '1') } catch {}
+  startGps()
+  screen.value = 'home'
+}
+
+async function pick(t: Trip) {
+  const first = t.steps[0]
+  if (first?.kind === 'walk' && realGps.value && nearBordeaux(realGps.value)) { first.from = realGps.value; first.path = undefined }
+  trip.value = t
+  step.value = -1
+  screen.value = 'preview'
+  await loadWalkPaths(t)
+  trip.value = { ...t } // redraw with street paths
+}
+
+function go() {
+  step.value = 0
+  screen.value = 'guide'
+  keepAwake(true)
+}
+
+function finish() {
+  keepAwake(false)
+  screen.value = 'arrived'
+  say(`Bravo, vous êtes arrivé. ${trip.value?.place}.`)
+  buzz([120, 80, 120])
+}
+
+function home() {
+  screen.value = 'home'
+  trip.value = null
+  step.value = -1
+  me.value = realGps.value && nearBordeaux(realGps.value) ? realGps.value : HOME.at
+}
+
+const toggleVoice = () => { voiceOn.value = !voiceOn.value; say('La voix est activée.') }
+
+const sheetH = computed(() => screen.value === 'guide' ? 460 : 420)
+const showMap = computed(() => screen.value === 'preview' || screen.value === 'guide')
+</script>
+
+<template>
+  <div class="relative mx-auto h-dvh w-full max-w-[440px] overflow-hidden bg-bg shadow-2xl">
+    <!-- Map lives behind the trip screens so preview → guide is one continuous camera move. -->
+    <motion.div
+      class="absolute inset-0"
+      :initial="false"
+      :animate="{ opacity: showMap ? 1 : 0, scale: showMap ? 1 : 1.06 }"
+      :transition="{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }"
+    >
+      <MapView :trip="trip" :step="step" :me="me" :pad-bottom="sheetH" />
+    </motion.div>
+
+    <!-- Always-on controls during a trip: big, labelled, never hidden behind a menu. -->
+    <AnimatePresence>
+      <motion.div
+        v-if="screen === 'guide' || screen === 'preview'"
+        class="pointer-events-none absolute inset-x-0 top-0 z-[500] flex justify-end gap-2 p-4 pt-[max(1rem,env(safe-area-inset-top))]"
+        :initial="{ opacity: 0, y: -16 }" :animate="{ opacity: 1, y: 0 }" :exit="{ opacity: 0, y: -16 }"
+      >
+        <button
+          class="press pointer-events-auto flex h-14 items-center gap-2 rounded-full bg-white px-4 font-bold text-navy shadow-lg"
+          :aria-label="voiceOn ? 'Couper la voix' : 'Activer la voix'"
+          @click="toggleVoice"
+        >
+          <component :is="voiceOn ? Volume2 : VolumeX" :size="26" />
+          <span>{{ voiceOn ? 'Voix' : 'Muet' }}</span>
+        </button>
+        <button
+          class="press pointer-events-auto flex h-14 items-center gap-2 rounded-full bg-help px-5 font-bold text-white shadow-lg"
+          @click="help = true"
+        >
+          <LifeBuoy :size="26" /> Aide
+        </button>
+      </motion.div>
+    </AnimatePresence>
+
+    <AnimatePresence mode="wait">
+      <ScreenWelcome v-if="screen === 'welcome'" key="welcome" @done="welcomeDone" />
+      <ScreenHome v-else-if="screen === 'home'" key="home" :near="!!realGps && nearBordeaux(realGps)" @pick="pick" />
+      <ScreenPreview v-else-if="screen === 'preview' && trip" key="preview" :trip="trip" @back="home" @go="go" />
+      <ScreenGuide v-else-if="screen === 'guide' && trip" key="guide" v-model:step="step" v-model:me="me" :trip="trip" @done="finish" />
+      <ScreenArrived v-else-if="screen === 'arrived' && trip" key="arrived" :trip="trip" @home="home" />
+    </AnimatePresence>
+
+    <HelpSheet :open="help" :trip="trip" :step="step" @close="help = false" />
+  </div>
+</template>
