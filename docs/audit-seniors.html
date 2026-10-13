@@ -1,0 +1,645 @@
+<title>Seniors et transports en commun</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Lexend:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<style>
+/* Mise en page : une colonne de lecture (~70ch), les graphes et tableaux s'élargissent à 960px. */
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: var(--text-md)/var(--leading) var(--font-body);
+  margin: 0;
+}
+.wrap { max-width: 960px; margin: 0 auto; padding-inline: max(16px, 4vw); padding-block: var(--space-8) var(--space-16); }
+.prose { max-width: 70ch; }
+h1, h2, h3 { font-family: var(--font-display); color: var(--accent-strong); text-wrap: balance; line-height: 1.2; margin: 0; }
+h1 { font-size: var(--text-3xl); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: var(--text-2xl); font-weight: 600; }
+h3 { font-size: var(--text-lg); font-weight: 600; }
+p { margin: 0; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+.stack > * + * { margin-top: var(--space-4); }
+.muted { color: var(--fg-muted); }
+.eyebrow { font: 600 var(--text-xs)/1.2 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+
+/* En-tête */
+.masthead { display: flex; align-items: center; gap: var(--space-3); padding-bottom: var(--space-6); border-bottom: 1px solid var(--line); }
+.brand { font: 700 var(--text-lg)/1 var(--font-display); color: var(--ca-navy-900); }
+.brand span { color: var(--ca-blue-600); }
+:root[data-theme="dark"] .brand { color: var(--fg); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .brand { color: var(--fg); } }
+.masthead .meta { margin-left: auto; font-size: var(--text-xs); color: var(--fg-muted); text-align: right; }
+.mark { width: 36px; height: 36px; flex: none; }
+.theme-toggle { flex: none; min-height: var(--tap-min); padding-inline: var(--space-4); border-radius: var(--radius-pill); border: 1px solid var(--line); background: var(--surface); color: var(--fg); font: inherit; font-size: var(--text-sm); cursor: pointer; }
+.theme-toggle:hover { background: var(--accent-soft); }
+@media (max-width: 560px) { .masthead { flex-wrap: wrap; } .masthead .meta { order: 3; flex-basis: 100%; text-align: left; margin-left: 0; } .theme-toggle { margin-left: auto; } }
+
+.hero { padding-block: var(--space-12) var(--space-8); display: grid; gap: var(--space-6); }
+.hero .lede { font-size: var(--text-lg); color: var(--fg-muted); max-width: 60ch; }
+
+/* Chiffres clés */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-6); display: grid; gap: var(--space-2); align-content: start; }
+.kpi b { font: 700 var(--text-2xl)/1 var(--font-display); color: var(--accent-strong); font-variant-numeric: tabular-nums; }
+.kpi span { font-size: var(--text-sm); }
+.kpi small { font-size: var(--text-xs); color: var(--fg-muted); }
+
+/* Sommaire */
+.toc { display: flex; flex-wrap: wrap; gap: var(--space-2); padding: 0; margin: 0; list-style: none; }
+.toc a { display: inline-flex; align-items: center; min-height: var(--tap-min); padding-inline: var(--space-4); border-radius: var(--radius-pill); background: var(--surface-2); color: var(--fg); text-decoration: none; font-size: var(--text-sm); }
+.toc a:hover { background: var(--accent-soft); }
+
+section { padding-top: var(--space-16); scroll-margin-top: var(--space-4); }
+section > h2 { margin-bottom: var(--space-4); }
+.num { font-family: var(--font-display); color: var(--accent); margin-right: var(--space-2); }
+
+/* Citations de source */
+sup.ref a { font-size: 0.8em; text-decoration: none; padding: 0 2px; font-weight: 700; }
+
+/* Encadré */
+.callout { background: var(--accent-soft); border-radius: var(--radius-md); padding: var(--space-6); }
+.callout h3 { margin-bottom: var(--space-2); }
+
+/* Figures */
+figure { margin: var(--space-8) 0 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-6); min-width: 0; }
+figure h3 { font-size: var(--text-md); color: var(--fg); }
+figure .sub { font-size: var(--text-sm); color: var(--fg-muted); margin-top: var(--space-1); }
+figcaption { margin-top: var(--space-4); font-size: var(--text-xs); color: var(--fg-muted); }
+.legend { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-4); font-size: var(--text-sm); padding: 0; list-style: none; }
+.legend li { display: inline-flex; align-items: center; gap: var(--space-2); }
+.sw { width: 14px; height: 14px; border-radius: 4px; flex: none; }
+.chart { margin-top: var(--space-6); }
+
+/* Barres horizontales (HTML) */
+.hbars { display: grid; gap: var(--space-3); }
+.hrow { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: var(--space-2) var(--space-4); align-items: center; }
+.hrow .lab { font-size: var(--text-sm); line-height: 1.35; }
+.track { display: grid; gap: 4px; }
+.bar-line { display: flex; align-items: center; gap: var(--space-2); }
+.bar { height: 22px; border-radius: 0 4px 4px 0; min-width: 2px; cursor: default; }
+.bar-val { font-size: var(--text-sm); font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 560px) { .hrow { grid-template-columns: 1fr; } }
+
+/* Barres 100 % empilées */
+.stack100 { display: grid; gap: var(--space-3); }
+.srow { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: var(--space-4); align-items: center; }
+.srow .lab { font-size: var(--text-sm); font-weight: 700; font-variant-numeric: tabular-nums; }
+.seg-wrap { display: flex; height: 34px; gap: 2px; }
+.seg { display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: 700; overflow: hidden; white-space: nowrap; }
+.seg:first-child { border-radius: 4px 0 0 4px; }
+.seg:last-child { border-radius: 0 4px 4px 0; }
+
+/* Colonnes verticales (HTML) */
+.cols { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: var(--space-3); align-items: end; height: 220px; border-bottom: 1px solid var(--line); padding-top: var(--space-6); }
+.col { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: var(--space-1); }
+.col .bar { width: min(56px, 100%); border-radius: 4px 4px 0 0; height: auto; }
+.col-labels { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: var(--space-3); margin-top: var(--space-2); }
+.col-labels span { text-align: center; font-size: var(--text-xs); color: var(--fg-muted); }
+
+/* Courbe (SVG) */
+.line-svg { width: 100%; height: auto; display: block; overflow: visible; }
+.line-svg text { fill: var(--fg-muted); font: 16px var(--font-body); }
+.line-svg .val { fill: var(--fg); font-weight: 700; }
+
+/* Tableau de données */
+details.data { margin-top: var(--space-4); }
+details.data summary { cursor: pointer; font-size: var(--text-sm); color: var(--accent); min-height: 32px; display: inline-flex; align-items: center; }
+.tbl-wrap { overflow-x: auto; margin-top: var(--space-2); }
+table { border-collapse: collapse; width: 100%; font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 700; color: var(--fg-muted); font-size: var(--text-sm); }
+td.n { text-align: right; }
+
+/* Freins : grille de familles */
+.families { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-4); margin-top: var(--space-6); }
+.family { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-6); display: grid; gap: var(--space-3); align-content: start; }
+.family ul { margin: 0; padding-left: 1.1em; display: grid; gap: var(--space-2); font-size: var(--text-sm); }
+
+/* Territoires */
+.terr td:first-child { font-weight: 700; white-space: nowrap; }
+
+/* Solutions */
+.filters { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-6); }
+.filters button { min-height: var(--tap-min); padding-inline: var(--space-4); border-radius: var(--radius-pill); border: 1px solid var(--line); background: var(--surface); color: var(--fg); font: inherit; font-size: var(--text-sm); cursor: pointer; }
+.filters button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.solutions { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-4); margin-top: var(--space-4); }
+.sol { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-6); display: grid; gap: var(--space-3); align-content: start; min-width: 0; }
+.sol h3 { font-size: var(--text-md); }
+.sol .where { font-size: var(--text-xs); color: var(--fg-muted); }
+.sol .proof { font-size: var(--text-sm); }
+.sol .proof b { font-family: var(--font-display); color: var(--accent-strong); }
+.badge { justify-self: start; font-size: var(--text-xs); font-weight: 700; padding: 2px var(--space-3); border-radius: var(--radius-pill); display: inline-flex; align-items: center; gap: 6px; }
+.badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.b-mes { background: var(--good-soft); color: var(--good); }
+.b-dec { background: var(--accent-soft); color: var(--accent); }
+.b-qual { background: var(--surface-2); color: var(--fg-muted); }
+.answers { font-size: var(--text-xs); color: var(--fg-muted); }
+
+/* Implications */
+.impl { counter-reset: i; display: grid; gap: var(--space-4); padding: 0; list-style: none; margin-top: var(--space-6); }
+.impl li { counter-increment: i; display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: var(--space-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-6); }
+.impl li::before { content: counter(i); font: 700 var(--text-xl)/1 var(--font-display); color: var(--accent); }
+.impl h3 { font-size: var(--text-md); color: var(--fg); margin-bottom: var(--space-2); }
+.impl p { font-size: var(--text-sm); }
+
+/* Sources */
+.sources { padding-left: 2.2em; display: grid; gap: var(--space-3); font-size: var(--text-sm); }
+.sources li { padding-left: var(--space-2); scroll-margin-top: var(--space-4); }
+.sources li:target { background: var(--accent-soft); border-radius: var(--radius-sm); }
+.sources .t { font-weight: 700; }
+.sources a { word-break: break-word; }
+
+/* Design system */
+.swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: var(--space-3); margin-top: var(--space-6); }
+.swatch { border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; background: var(--surface); }
+.swatch div { height: 64px; }
+.swatch p { padding: var(--space-2) var(--space-3); font-size: var(--text-xs); }
+.swatch code { font-size: var(--text-xs); color: var(--fg-muted); }
+.type-spec { display: grid; gap: var(--space-4); margin-top: var(--space-6); }
+.type-spec > div { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-6); }
+
+/* Infobulle */
+#tip { position: fixed; pointer-events: none; z-index: 10; background: var(--fg); color: var(--bg); font-size: var(--text-sm); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); max-width: 260px; line-height: 1.35; }
+
+footer { margin-top: var(--space-16); padding-top: var(--space-6); border-top: 1px solid var(--line); font-size: var(--text-xs); color: var(--fg-muted); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .bar, .seg { transition: filter .15s; }
+}
+.bar:hover, .seg:hover { filter: brightness(1.12); }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <svg class="mark" viewBox="0 0 36 36" aria-hidden="true">
+      <rect x="3" y="3" width="13" height="13" rx="4" fill="#71bdfd"/>
+      <rect x="20" y="3" width="13" height="13" rx="4" fill="#1070d0"/>
+      <rect x="3" y="20" width="13" height="13" rx="4" fill="#0a3775"/>
+      <rect x="20" y="20" width="13" height="13" rx="4" fill="#055aba"/>
+    </svg>
+    <span class="brand">Connect<span>'Age</span></span>
+    <p class="meta">Hackathon Keolis × TBMouv Lab<br>Défi #1 · Accessibilité et inclusion numérique</p>
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Changer de thème"></button>
+  </header>
+
+  <div class="hero">
+    <p class="eyebrow">Audit · octobre 2026</p>
+    <h1>Pourquoi les seniors renoncent aux transports en commun, et ce qui marche pour les faire revenir</h1>
+    <p class="lede">Synthèse des données publiques sur Bordeaux, Paris, d'autres métropoles françaises et l'international. Chaque chiffre renvoie à sa source en fin de page.</p>
+    <div class="kpis">
+      <div class="kpi"><b>60 %</b><span>des seniors craignent d'être bousculés dans les transports en commun</span><small>UTPF-IFOP, 2024 <sup class="ref"><a href="#s3">3</a></sup></small></div>
+      <div class="kpi"><b>62 %</b><span>des 75 ans et plus sont en situation d'illectronisme</span><small>INSEE, 2023 <sup class="ref"><a href="#s5">5</a></sup></small></div>
+      <div class="kpi"><b>38 %</b><span>des 78 ans et plus ne se sentent pas totalement autonomes dans les transports</span><small>UTPF-IFOP, 2024 <sup class="ref"><a href="#s3">3</a></sup></small></div>
+      <div class="kpi"><b>31 %</b><span>de 65 ans et plus en Nouvelle-Aquitaine en 2050, contre 21 % en 2013</span><small>INSEE, 2017 <sup class="ref"><a href="#s1">1</a></sup></small></div>
+    </div>
+  </div>
+
+  <nav aria-label="Sommaire">
+    <ul class="toc">
+      <li><a href="#demographie">Démographie</a></li>
+      <li><a href="#pratiques">Comment ils se déplacent</a></li>
+      <li><a href="#freins">Les freins</a></li>
+      <li><a href="#territoires">Bordeaux, Paris, ailleurs</a></li>
+      <li><a href="#solutions">Solutions éprouvées</a></li>
+      <li><a href="#implications">Pour Connect'Age</a></li>
+      <li><a href="#sources">Sources</a></li>
+      <li><a href="#design">Design system v0</a></li>
+    </ul>
+  </nav>
+
+  <!-- 1 -->
+  <section id="demographie">
+    <h2><span class="num">1</span>Une population qui vieillit vite</h2>
+    <div class="prose stack">
+      <p>En France, les 60 ans et plus représentent 22 % de la population en 2025. Ils seront 26 % en 2040 et 29 % en 2070 <sup class="ref"><a href="#s3">3</a></sup>. Sur la seule décennie 2020-2030, le nombre de 75-84 ans passe de 4 à 6 millions, soit +50 % <sup class="ref"><a href="#s4">4</a></sup>.</p>
+      <p>La Nouvelle-Aquitaine vieillit plus vite que la moyenne. La part des 65 ans et plus y passerait de 21 % en 2013 à 31 % en 2050 <sup class="ref"><a href="#s1">1</a></sup>. La projection la plus récente de l'INSEE donne un tiers de la population en 2070 <sup class="ref"><a href="#s2">2</a></sup>.</p>
+      <p>Bordeaux reste une ville jeune : 14,8 % de 65 ans et plus en 2021, dont 7,4 % de 75 ans et plus (près de 20 000 personnes). À l'échelle de la métropole, les 60 ans et plus pèsent 21,5 % <sup class="ref"><a href="#s9">9</a></sup>.</p>
+    </div>
+    <figure>
+      <h3>Part des 60 ans et plus dans la population française</h3>
+      <p class="sub">En % de la population totale. 2040 et 2070 sont des projections.</p>
+      <div class="chart" id="c-demo"></div>
+      <figcaption>Source : guide GART-UTPF-France Silver Eco, nov. 2025 <sup class="ref"><a href="#s3">3</a></sup>.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 2 -->
+  <section id="pratiques">
+    <h2><span class="num">2</span>Comment les seniors se déplacent</h2>
+    <div class="prose stack">
+      <p>La mobilité ne s'effondre pas au départ à la retraite. Elle bascule <strong>vers 75 ans</strong> : moins de déplacements, plus courts, plus souvent à pied <sup class="ref"><a href="#s8">8</a></sup>. Une partie des seniors finit par ne plus sortir du tout.</p>
+      <p>La voiture reste dominante (75 % des 60-77 ans l'utilisent régulièrement), mais un senior sur deux prend aussi les transports en commun régulièrement <sup class="ref"><a href="#s3">3</a></sup>. À Bordeaux, l'enquête mobilité Gironde 2021 (17 000 personnes) n'a pas publié de résultats par âge <sup class="ref"><a href="#s10">10</a></sup>.</p>
+    </div>
+
+    <figure>
+      <h3>Nombre moyen de déplacements par jour, selon l'âge</h3>
+      <p class="sub">Métropole de Lyon, enquête ménages déplacements 2015. Aucune ventilation par âge n'a été publiée pour Bordeaux.</p>
+      <div class="chart" id="c-trips"></div>
+      <figcaption>Source : UrbaLyon, « La mobilité des aînés », janv. 2026 <sup class="ref"><a href="#s8">8</a></sup>.</figcaption>
+    </figure>
+
+    <figure>
+      <h3>Part des personnes qui ne sortent pas de chez elles un jour donné</h3>
+      <p class="sub">Selon l'âge, d'après une enquête ménages déplacements.</p>
+      <div class="chart" id="c-immob"></div>
+      <figcaption>Source : Auxilia pour le Laboratoire de la Mobilité Inclusive, 2014 <sup class="ref"><a href="#s7">7</a></sup>. Donnée ancienne, à prendre comme ordre de grandeur.</figcaption>
+    </figure>
+
+    <figure>
+      <h3>Avec l'âge, la marche remplace la voiture</h3>
+      <p class="sub">Répartition des déplacements par mode, en %. Métropole de Lyon, 2015.</p>
+      <ul class="legend" id="l-modal"></ul>
+      <div class="chart" id="c-modal"></div>
+      <figcaption>Source : UrbaLyon, 2026, d'après l'EDGT 2015 <sup class="ref"><a href="#s8">8</a></sup>. « Autres » regroupe vélo, deux-roues motorisés et autres modes. Total arrondi.</figcaption>
+    </figure>
+
+    <figure>
+      <h3>Les 78 ans et plus prennent les transports en commun… quand l'offre existe</h3>
+      <p class="sub">Part de la génération « silencieuse » (78 ans et plus) qui utilise régulièrement les transports en commun, selon la taille de l'agglomération.</p>
+      <div class="chart" id="c-size"></div>
+      <figcaption>Source : sondage UTPF-IFOP, juin 2024, cité dans le guide GART <sup class="ref"><a href="#s3">3</a></sup>. Bordeaux Métropole (≈ 830 000 hab.) est dans la tranche 200 000 – 2 millions.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 3 -->
+  <section id="freins">
+    <h2><span class="num">3</span>Les freins : surtout invisibles</h2>
+    <div class="prose stack">
+      <p>Le sujet du défi le dit : le renoncement tient moins à une incapacité physique qu'à une <strong>anxiété cognitive</strong>. Les données le confirment. Les fragilités psychologiques ou cognitives sont décrites comme « invisibles » : appréhension, peur, méconnaissance des solutions <sup class="ref"><a href="#s3">3</a></sup>. Ce sont aussi les moins prises en compte, car les politiques d'accessibilité visent surtout le handicap physique.</p>
+    </div>
+
+    <figure>
+      <h3>Ce que déclarent les seniors</h3>
+      <p class="sub">En % des répondants. « 60-77 ans » = baby-boomers ; « 78 ans + » = génération silencieuse. Une seule barre quand le chiffre n'est publié que pour l'ensemble des seniors ou pour un seul groupe.</p>
+      <ul class="legend" id="l-freins"></ul>
+      <div class="chart" id="c-freins"></div>
+      <figcaption>Source : sondage UTPF-IFOP, juin 2024, cité dans le guide GART-UTPF-France Silver Eco <sup class="ref"><a href="#s3">3</a></sup>.</figcaption>
+    </figure>
+
+    <figure>
+      <h3>Le numérique exclut d'abord les plus âgés</h3>
+      <p class="sub">Part des personnes en situation d'illectronisme (pas d'usage d'internet dans les 3 derniers mois, ou pas de compétences de base), France, 2023.</p>
+      <div class="chart" id="c-illec"></div>
+      <figcaption>Source : INSEE, enquête TIC ménages 2023 <sup class="ref"><a href="#s5">5</a></sup>. Chiffre 2021 identique pour les 75 ans + (61,9 %) <sup class="ref"><a href="#s6">6</a></sup>.</figcaption>
+    </figure>
+
+    <figure>
+      <h3>Les difficultés concrètes du trajet</h3>
+      <p class="sub">Londres (Redbridge, Barking, Havering), 198 personnes de 50 ans et plus, 2024. En % des répondants.</p>
+      <div class="chart" id="c-uk"></div>
+      <figcaption>Source : Age UK Redbridge, Barking & Havering, enquête transports 2024 <sup class="ref"><a href="#s13">13</a></sup>. Parmi ceux qui ont du mal à atteindre le quai du métro, 68 % citent les escaliers ou escalators.</figcaption>
+    </figure>
+
+    <div class="families">
+      <div class="family">
+        <h3>Cognitif</h3>
+        <ul>
+          <li>Peur de se tromper de direction, de rater l'arrêt, de ne pas comprendre une correspondance (sujet du défi).</li>
+          <li>Avec l'âge, la mémoire de travail baisse et le traitement de l'information ralentit : il devient difficile de suivre plusieurs informations en parallèle <sup class="ref"><a href="#s7">7</a></sup>.</li>
+          <li>Trop d'information tue l'information : écrans, annonces, plans en même temps.</li>
+        </ul>
+      </div>
+      <div class="family">
+        <h3>Physique</h3>
+        <ul>
+          <li>60 % citent le manque de stabilité ; 41 % des 60-77 ans s'essoufflent vite <sup class="ref"><a href="#s3">3</a></sup>.</li>
+          <li>Environ la moitié des blessés dans les bus ont plus de 65 ans. Beaucoup se lèvent bien avant l'arrêt et le bus repart avant qu'ils soient assis <sup class="ref"><a href="#s14">14</a></sup><sup class="ref"><a href="#s28">28</a></sup>.</li>
+          <li>Une chute ou une quasi-chute suffit à faire renoncer aux trajets suivants <sup class="ref"><a href="#s14">14</a></sup>.</li>
+        </ul>
+      </div>
+      <div class="family">
+        <h3>Numérique</h3>
+        <ul>
+          <li>62 % des 75 ans + en illectronisme <sup class="ref"><a href="#s5">5</a></sup>.</li>
+          <li>La dématérialisation est « complexe à maîtriser » pour 42 % des 60-77 ans et 52 % des 78 ans + <sup class="ref"><a href="#s3">3</a></sup>.</li>
+          <li>Mais 58 % des 60-77 ans et 49 % des 78 ans + jugent l'information digitale « une bonne solution » <sup class="ref"><a href="#s3">3</a></sup>.</li>
+          <li>Les perturbations sont souvent annoncées uniquement en ligne <sup class="ref"><a href="#s24">24</a></sup>.</li>
+        </ul>
+      </div>
+      <div class="family">
+        <h3>Social et psychologique</h3>
+        <ul>
+          <li>Le regard des autres : « on devient invisible ». S'exposer avec un déambulateur peut être mal vécu <sup class="ref"><a href="#s7">7</a></sup>.</li>
+          <li>Difficulté à demander de l'aide, y compris aux proches <sup class="ref"><a href="#s7">7</a></sup>.</li>
+          <li>La foule aux heures de pointe : 60 % craignent d'être bousculés <sup class="ref"><a href="#s3">3</a></sup>.</li>
+        </ul>
+      </div>
+      <div class="family">
+        <h3>Tarif : un frein secondaire</h3>
+        <ul>
+          <li>21 % des 60-77 ans et 13 % des 78 ans + citent les tarifs <sup class="ref"><a href="#s3">3</a></sup>.</li>
+          <li>Seuls 8 % des abonnés sont des seniors : ils achètent au ticket, le titre le plus cher, souvent faute de connaître leurs droits <sup class="ref"><a href="#s3">3</a></sup>.</li>
+          <li>À Bordeaux, l'âge du tarif senior doit passer de 60 à 63 ans en 2027 <sup class="ref"><a href="#s11">11</a></sup>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section id="territoires">
+    <h2><span class="num">4</span>Bordeaux, Paris, ailleurs</h2>
+    <p class="prose">Les données publiques ne sont pas homogènes d'un territoire à l'autre. Ce tableau rassemble ce qui est documenté.</p>
+    <figure>
+      <div class="tbl-wrap">
+        <table class="terr">
+          <thead><tr><th>Territoire</th><th>Contexte senior</th><th>Points forts</th><th>Points faibles / manques</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Bordeaux (TBM)</td>
+              <td>14,8 % de 65 ans + dans la ville (2021), 21,5 % de 60 ans + dans la métropole <sup class="ref"><a href="#s9">9</a></sup>.</td>
+              <td>Réseau certifié Cap'Handéo. Formation des conducteurs avec un exosquelette qui simule le vieillissement <sup class="ref"><a href="#s3">3</a></sup>. Vélo-taxi « mobi-vélo » pendant les travaux du pont de Pierre : 8 400 voyages à l'été 2025, surtout par des seniors <sup class="ref"><a href="#s3">3</a></sup><sup class="ref"><a href="#s4">4</a></sup>. Mobibus pour les personnes à mobilité réduite <sup class="ref"><a href="#s21">21</a></sup>.</td>
+              <td>Pas de ventilation par âge publiée pour l'enquête mobilité Gironde 2021 <sup class="ref"><a href="#s10">10</a></sup>. Pas d'atelier « prendre le tram » documenté. Tarif senior repoussé à 63 ans et Mobibus de 3 € à 3,50 € en 2027 <sup class="ref"><a href="#s11">11</a></sup>.</td>
+            </tr>
+            <tr>
+              <td>Paris / Grand Paris</td>
+              <td>15 % de 65 ans + dans la Métropole du Grand Paris, +26 % en effectif <sup class="ref"><a href="#s12">12</a></sup>. 68 % des 78 ans + prennent les TC régulièrement <sup class="ref"><a href="#s3">3</a></sup>.</td>
+              <td>Offre dense. 100 % des bus avec annonces sonores et visuelles <sup class="ref"><a href="#s25">25</a></sup>. Fontaines à eau dans 90 stations de métro (canicules) <sup class="ref"><a href="#s3">3</a></sup>.</td>
+              <td>Environ 3 % des stations de métro parisiennes accessibles en fauteuil en 2024 <sup class="ref"><a href="#s15">15</a></sup>. Escaliers, correspondances longues.</td>
+            </tr>
+            <tr>
+              <td>Autres villes françaises</td>
+              <td>Lyon : bascule de mobilité à 75 ans, femmes de 65 ans + plus souvent en TC qu'en voiture (37 % contre 35 %) <sup class="ref"><a href="#s8">8</a></sup>.</td>
+              <td>Tours : « Mon Guide fil bleu », accompagnement porte à porte hebdomadaire (Keolis). Rennes : parcours découverte gratuit et « Star me guide ». Dunkerque : TAD « Étoile » gratuit pour les 70 ans + <sup class="ref"><a href="#s3">3</a></sup>.</td>
+              <td>Dispositifs rarement évalués avec des chiffres d'impact.</td>
+            </tr>
+            <tr>
+              <td>International</td>
+              <td>Royaume-Uni : 46 % des 50 ans + ont du mal à monter ou descendre du bus <sup class="ref"><a href="#s13">13</a></sup>.</td>
+              <td>Londres : badge « Please offer me a seat ». Angleterre : pass bus gratuit. Seattle : information en temps réel. Göteborg : lignes de service pour les aînés. Pays-Bas : ambassadeurs des transports (détails en partie 5).</td>
+              <td>La plupart des évaluations sont déclaratives et de court terme <sup class="ref"><a href="#s19">19</a></sup>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section id="solutions">
+    <h2><span class="num">5</span>Les solutions qui ont fait leurs preuves</h2>
+    <div class="prose stack">
+      <p>Chaque fiche indique le niveau de preuve. <strong>Mesuré</strong> : effet observé sur des comportements ou des temps. <strong>Déclaré</strong> : enquête auprès des participants. <strong>Qualitatif</strong> : dispositif en place, retours positifs, sans chiffre d'impact.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filtrer par frein">
+      <button type="button" id="f-all" data-f="all" aria-pressed="true">Toutes</button>
+      <button type="button" id="f-cog" data-f="cog" aria-pressed="false">Cognitif</button>
+      <button type="button" id="f-phy" data-f="phy" aria-pressed="false">Physique</button>
+      <button type="button" id="f-num" data-f="num" aria-pressed="false">Numérique</button>
+      <button type="button" id="f-soc" data-f="soc" aria-pressed="false">Social</button>
+      <button type="button" id="f-tar" data-f="tar" aria-pressed="false">Tarif</button>
+    </div>
+    <div class="solutions" id="sol-list"></div>
+  </section>
+
+  <!-- 6 -->
+  <section id="implications">
+    <h2><span class="num">6</span>Ce que ça implique pour Connect'Age</h2>
+    <p class="prose">Ces pistes croisent les données ci-dessus avec notre brainstorm (préparation du trajet, réassurance, pas de stigmatisation, trop d'informations) et la grille du jury.</p>
+    <ol class="impl">
+      <li><div><h3>Travailler la confiance avant le trajet</h3><p>Le frein principal est l'appréhension, pas le tarif. Les dispositifs qui marchent font <em>répéter</em> le trajet : parcours découverte (Rennes), accompagnement hebdomadaire (Tours), formation au voyage (Royaume-Uni, États-Unis). Un outil de préparation peut reproduire ce rôle : visualiser chaque étape, chaque correspondance, à l'avance et à son rythme.</p></div></li>
+      <li><div><h3>Ne pas tout miser sur l'application</h3><p>62 % des 75 ans + sont hors du numérique, mais près d'un senior sur deux juge l'information digitale utile. Il faut un relais non numérique : un proche qui prépare le trajet et le partage (notre idée de « synchronisation »), un support papier, un agent.</p></div></li>
+      <li><div><h3>Montrer peu, au bon moment</h3><p>Mémoire de travail réduite, information traitée plus lentement : une seule consigne à la fois, l'arrêt suivant plutôt que toute la ligne, une alerte avant de descendre pour ne pas se lever trop tôt. Le temps réel réduit l'attente ressentie (Seattle).</p></div></li>
+      <li><div><h3>Aider sans désigner</h3><p>Le badge londonien montre qu'un signal discret suffit : 86 % des porteurs se sentent plus à l'aise pour demander une place. Il faut éviter un outil « pour personnes âgées » qui stigmatise.</p></div></li>
+      <li><div><h3>Éviter la foule et les secousses</h3><p>60 % craignent d'être bousculés. Indiquer l'affluence prévue et proposer un horaire plus calme répond directement à ce frein (exemple : la fonction « Busy Bus » de Stagecoach) <sup class="ref"><a href="#s24">24</a></sup>.</p></div></li>
+      <li><div><h3>S'appuyer sur l'existant TBM pour la faisabilité</h3><p>La faisabilité compte pour 25 points. TBM forme déjà ses conducteurs (exosquelette), a l'expérience du mobi-vélo et de Mobibus. L'outil peut se brancher sur ces dispositifs plutôt que d'en créer de nouveaux.</p></div></li>
+      <li><div><h3>Prévoir des indicateurs mesurables</h3><p>Le jury demande des résultats concrets et mesurables. Quelques exemples : nombre de trajets préparés, part réalisée sans aide, confiance déclarée avant et après (sur le modèle de l'essai TfL), retour sur le réseau après une période sans trajet.</p></div></li>
+    </ol>
+    <div class="callout" style="margin-top: var(--space-8)">
+      <h3>Données manquantes, à récolter sur le terrain</h3>
+      <p>Aucune source publique ne donne, pour Bordeaux, la part modale TBM des 65 ans + ni les freins cités par les seniors bordelais. Notre questionnaire terrain comble ce trou : à présenter comme une donnée originale au jury.</p>
+    </div>
+  </section>
+
+  <!-- Sources -->
+  <section id="sources">
+    <h2>Sources</h2>
+    <p class="prose muted" style="margin-bottom: var(--space-6)">Toutes les sources ont été consultées en octobre 2026. Les liens s'ouvrent dans un nouvel onglet.</p>
+    <ol class="sources" id="src-list"></ol>
+  </section>
+
+  <!-- Design system -->
+  <section id="design">
+    <h2>Design system v0</h2>
+    <div class="prose stack">
+      <p>Les couleurs viennent du logo. Les polices sont choisies pour la lisibilité : <strong>Lexend</strong> pour les titres, <strong>Atkinson Hyperlegible</strong> pour le texte. Cette dernière a été conçue par le Braille Institute pour les lecteurs malvoyants. Le corps de texte est à 18 px, et les cibles tactiles font au minimum 48 px.</p>
+      <p>Les valeurs sont dans <code>docs/tokens.css</code>, en thème clair et sombre.</p>
+    </div>
+    <div class="swatches" id="swatches"></div>
+    <div class="type-spec">
+      <div><p class="eyebrow">Titre · Lexend 600</p><p style="font: 600 var(--text-2xl)/1.2 var(--font-display); color: var(--accent-strong); margin-top: var(--space-2)">Prochain arrêt : Quinconces</p></div>
+      <div><p class="eyebrow">Texte · Atkinson 18 px</p><p style="margin-top: var(--space-2)">Descendez au prochain arrêt. Prenez le tram B direction Pessac Centre, quai de gauche. Il passe dans 4 minutes.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    Connect'Age · hackathon Keolis × TBMouv Lab, Bordeaux · audit documentaire réalisé en octobre 2026. Les chiffres viennent des sources citées et n'ont pas été recalculés, sauf les regroupements de modes signalés.
+  </footer>
+</div>
+<div id="tip" hidden></div>
+
+<script>
+/* Thème clair / sombre (préférence gardée dans ce navigateur) */
+const root = document.documentElement;
+const btn = document.getElementById("theme-toggle");
+const isDark = () => root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+const syncBtn = () => { btn.textContent = isDark() ? "☀ Thème clair" : "☾ Thème sombre"; };
+try { const t = localStorage.getItem("ca-theme"); if (t) root.dataset.theme = t; } catch (e) {}
+btn.addEventListener("click", () => {
+  root.dataset.theme = isDark() ? "light" : "dark";
+  try { localStorage.setItem("ca-theme", root.dataset.theme); } catch (e) {}
+  syncBtn();
+});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", syncBtn);
+syncBtn();
+
+const SOURCES = [
+  ["INSEE Analyses Nouvelle-Aquitaine n°43", "À l'horizon 2050, 900 000 seniors en plus en Nouvelle-Aquitaine, juin 2017", "https://www.insee.fr/fr/statistiques/2868301"],
+  ["INSEE Flash Nouvelle-Aquitaine n°81", "Projections de population à l'horizon 2070, nov. 2022", "https://www.insee.fr/fr/statistiques/6664226"],
+  ["GART, UTPF, France Silver Eco", "Mobilité des seniors : on en parle et on agit ensemble (guide, inclut le sondage UTPF-IFOP de juin 2024), nov. 2025", "https://www.gart.org/wp-content/uploads/2025/11/Guide-Mobilite-des-seniors_GART-UTPF-France-silver-Eco_Novembre-2025.pdf"],
+  ["GART", "Webinaire Mobilités des seniors, avec Keolis Bordeaux, 30 janv. 2026", "https://www.gart.org/wp-content/uploads/2026/02/2026-01-30-Webinaire_Mobilite_des_Seniors_vf.pdf"],
+  ["INSEE", "Compétences numériques de la population, enquête TIC 2023", "https://www.insee.fr/fr/statistiques/8616801"],
+  ["INSEE Première n°1953", "Illectronisme, juin 2023 (données 2021)", "https://www.insee.fr/fr/statistiques/7633654"],
+  ["Auxilia pour le Laboratoire de la Mobilité Inclusive", "Mobilité des seniors en France, étude complète, 2014", "https://www.avise.org/sites/default/files/atoms/files/mobilite_des_seniors_en_france_cabinet_auxilia_etude_complete_2014.pdf"],
+  ["UrbaLyon", "La mobilité des aînés, janv. 2026 (EDGT 2015)", "https://www.urbalyon.org/sites/default/storage_files/productions/2026-01/20260121%20-%20Mobilit%C3%A9%20des%20seniors%20-%20WEB.pdf"],
+  ["a'urba", "Fiche seniors 2025 (recensement 2021)", "https://www.aurba.org/wp-content/uploads/2026/04/aurba_2025_animation-seniors.pdf"],
+  ["Bordeaux Métropole", "Pratiques de déplacement des Girondins, enquête mobilité 2021, communiqué du 4 juil. 2023", "https://www.bordeaux-metropole.fr/sites/MET-BXMETRO-DRUPAL/files/2023-07/CPPratiquesd%C3%A9placementsdesgirondins4.07.2023.pdf"],
+  ["Le Bonbon Bordeaux", "Les prix des tickets de tram et bus vont augmenter en 2027, 29 sept. 2026", "https://lebonbon.fr/bordeaux/news/c-est-officiel-prix-tickets-trams-bus-vont-encore-augmenter-a-bordeaux-2027/"],
+  ["Apur", "Mobilité des seniors dans la Métropole du Grand Paris, diagnostic", "https://www.apur.org/sites/default/files/mobilite-seniors_diagnostic.pdf"],
+  ["Age UK Redbridge, Barking & Havering", "Public transport survey 2024", "https://www.ageuk.org.uk/bp-assets/globalassets/redbridge-barking--havering/voe/age-uk-rbh---public-transport-survey-2024.pdf"],
+  ["Morris, Barnes, Fildes (Loughborough University)", "Challenges of using the bus as an older person, 2017", "https://repository.lboro.ac.uk/articles/Challenges_of_using_the_bus_as_an_older_person/9341033"],
+  ["Ville de Paris", "Annexe accessibilité du Plan local de mobilité, juil. 2025", "https://cdn.paris.fr/paris/2025/07/23/02-plm-annexe-d-accessibilite-6FYl.pdf"],
+  ["Transport for London", "« Please offer me a seat » badge rolled out after successful trial, déc. 2016", "https://tfl.gov.uk/info-for/media/press-releases/2016/december/-please-offer-me-a-seat-badge-and-card-to-be-rolled-out-permanently-after-successful-trial"],
+  ["Ferris, Watkins, Borning (University of Washington)", "OneBusAway: results from providing real-time arrival information, CHI 2010", "https://homes.cs.washington.edu/%7Eborning/papers/ferris-chi2010-onebusaway.pdf"],
+  ["TR News n°303 (Transportation Research Board)", "Real-time information and perceived wait times (OneBusAway)", "https://onlinepubs.trb.org/onlinepubs/trnews/trnews303rpo.pdf"],
+  ["National Academies (TCRP)", "Travel training for older adults, revue de littérature", "https://nap.nationalacademies.org/read/22298/chapter/3"],
+  ["Imperial College London", "Free bus passes have health benefit (Coronini-Cronberg et al., AJPH 2012)", "https://www.imperial.ac.uk/news/113978/free-passes-have-health-benefit-researchers/"],
+  ["TBM", "Mobibus : fonctionnement et tarifs", "https://www.infotbm.com/en/mobibus-operation-and-prices.html"],
+  ["EMTA", "Fiche Göteborg (Flexlinjen)", "https://www.emta.com/wp-content/uploads/2023/08/Fiche_Goteborg.pdf"],
+  ["Rijksoverheid (gouvernement néerlandais)", "Hulp bij gebruik openbaar vervoer (OV-ambassadeurs), mars 2019", "https://www.rijksoverheid.nl/actueel/nieuws/2019/03/15/hulp-bij-gebruik-openbaar-vervoer"],
+  ["Age Better in Sheffield", "Everyone Back on the Bus, learning digest, 2021", "https://agefriendlysheffield.org.uk/wp-content/uploads/2021/09/Back-on-the-Bus-Learning-Digest.pdf"],
+  ["Visit Paris Region", "Transports accessibles en Île-de-France", "https://www.visitparisregion.com/fr/en-pratique/accessibilit%c3%a9-paris-region/transports-accessibles-paris-region"],
+  ["UK Department for Transport", "Transport Lifelines for Wellbeing and Travel (TLWT) fund evaluation, annexe E, 2025", "https://assets.publishing.service.gov.uk/media/686d57db2cfe301b5fb678c2/tlwt-fund-evaluation-appendix-e-case-study-summaries.pdf"],
+  ["TransportXtra", "Smartcard lengthens green man for elderly (Singapour, Green Man Plus)", "https://transportxtra.com/publications/evolution/news/59109/smartcard-lengthens-green-man-for-elderly"],
+  ["Age UK London", "On the Buses campaign", "https://www.ageuk.org.uk/london/projects-campaigns/our-campaigns/info/on-the-buses/"],
+];
+
+// Solutions : f = freins traités, ev = niveau de preuve, s = sources
+const SOLS = [
+  { t: "Badge « Please offer me a seat »", where: "Londres, Transport for London, depuis 2016", f: ["soc", "phy"], ev: "dec",
+    proof: "Essai sur 1 209 personnes : <b>72 %</b> des trajets jugés plus faciles, <b>86 %</b> plus confiants pour demander une place, <b>98 %</b> le recommandent.", s: [16] },
+  { t: "Information en temps réel", where: "Seattle, OneBusAway", f: ["cog"], ev: "mes",
+    proof: "Sans temps réel, les usagers <b>surestiment leur attente</b> ; avec, elle est estimée juste et réellement plus courte (environ <b>2 min</b> de moins). Satisfaction et sentiment de sécurité en hausse.", s: [17, 18] },
+  { t: "Application d'aide au trajet", where: "France, opérateur non nommé, enquête juin 2025", f: ["cog", "num"], ev: "dec",
+    proof: "Panel de 400 utilisateurs : <b>81 %</b> disent prendre davantage les transports, <b>91 %</b> des retraités disent mieux se déplacer.", s: [3] },
+  { t: "Accompagnement porte à porte « Mon Guide fil bleu »", where: "Tours, opéré par Keolis, 70 ans +", f: ["cog", "soc", "phy"], ev: "qual",
+    proof: "Un trajet aller-retour accompagné chaque semaine, au prix d'un ticket, pour lever la peur de la chute et la méconnaissance du réseau. Les bénéficiaires demandent à garder le même accompagnant.", s: [3] },
+  { t: "Parcours découverte et « Star me guide »", where: "Rennes, réseau STAR", f: ["cog", "soc"], ev: "qual",
+    proof: "Parcours gratuit de 2 h sur le réseau. Accompagnement à pied jusqu'à 500 m d'un arrêt pour ceux qui ne peuvent pas voyager seuls. Handistar en dernier recours.", s: [3] },
+  { t: "Formation au voyage (travel training)", where: "États-Unis, Royaume-Uni", f: ["cog", "soc"], ev: "dec",
+    proof: "Plus de confort et de confiance déclarés après formation, et moins d'usage de la voiture lors du suivi. La plupart des évaluations restent courtes et déclaratives. Pilote britannique en 6 séances : beaucoup de bénéficiaires voyagent seuls à la fin.", s: [19, 26] },
+  { t: "Conducteurs formés au vieillissement", where: "Bordeaux, TBM (Keolis), exosquelette simulateur", f: ["phy", "soc"], ev: "qual",
+    proof: "Les conducteurs portent poids, attelles et casque pour ressentir les effets de leur conduite. Démarrer avant que le passager soit assis est une cause majeure de chute.", s: [3, 4, 14] },
+  { t: "Pass bus gratuit pour les 60 ans +", where: "Angleterre, depuis 2006", f: ["tar"], ev: "mes",
+    proof: "Étude sur 16 911 personnes de 60 ans + : les détenteurs marchent plus et font plus de trajets actifs. Taux de détention passé de 57 % à 75 % (2005-2008). Étude observationnelle.", s: [20] },
+  { t: "Transport à la demande réservé aux aînés", where: "Dunkerque « Étoile », Göteborg « Flexlinjen »", f: ["phy", "cog"], ev: "qual",
+    proof: "Dunkerque : gratuit pour les 70 ans +, 1 300 inscrits, 10 000 voyages par an, environ 500 000 € par an. Göteborg : minibus à plancher bas, âge moyen des usagers 79 ans.", s: [4, 22] },
+  { t: "Vélo-taxi « mobi-vélo »", where: "Bordeaux, TBM, été 2025", f: ["phy"], ev: "mes",
+    proof: "Pendant la coupure du tram sur le pont de Pierre : <b>8 400 voyages</b>, surtout par des seniors. Le pilote crée aussi du lien social.", s: [3, 4] },
+  { t: "Ambassadeurs des transports", where: "Pays-Bas, OV-ambassadeurs", f: ["cog", "soc", "num"], ev: "qual",
+    proof: "1,5 M€ alloués en 2019 à des ambassadeurs qui apprennent à voyager seul en train, bus ou métro. En gare, ils montrent comment utiliser un automate ou recharger une carte.", s: [23] },
+  { t: "Temps de traversée allongé « Green Man Plus »", where: "Singapour, depuis 2009", f: ["phy"], ev: "qual",
+    proof: "Les seniors badgent leur carte au feu piéton pour obtenir plus de temps de traversée. Le trajet vers l'arrêt fait partie du voyage.", s: [27] },
+];
+
+const EV = { mes: ["b-mes", "Mesuré"], dec: ["b-dec", "Déclaré"], qual: ["b-qual", "Qualitatif"] };
+const FAM = { cog: "cognitif", phy: "physique", num: "numérique", soc: "social", tar: "tarif" };
+const ref = (n) => `<sup class="ref"><a href="#s${n}">${n}</a></sup>`;
+
+/* Infobulle partagée */
+const tip = document.getElementById("tip");
+document.addEventListener("pointermove", (e) => {
+  const t = e.target.closest("[data-tip]");
+  if (!t) { tip.hidden = true; return; }
+  tip.textContent = t.dataset.tip;
+  tip.hidden = false;
+  const x = Math.min(e.clientX + 14, window.innerWidth - tip.offsetWidth - 8);
+  tip.style.left = x + "px";
+  tip.style.top = (e.clientY + 16) + "px";
+});
+
+function dataTable(head, rows) {
+  return `<details class="data"><summary>Voir les données</summary><div class="tbl-wrap"><table><thead><tr>${head.map((h) => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((c, i) => `<td${i ? ' class="n"' : ""}>${c ?? "–"}</td>`).join("")}</tr>`).join("")}</tbody></table></div></details>`;
+}
+
+function legend(id, series) {
+  document.getElementById(id).innerHTML = series.map((s) => `<li><span class="sw" style="background:var(${s.c})"></span>${s.n}</li>`).join("");
+}
+
+// Barres horizontales : rows = [{l, v:[...]}], series = [{n, c}]
+function hbars(id, rows, series, max = 100) {
+  const html = rows.map((r) => `<div class="hrow"><div class="lab">${r.l}</div><div class="track">${r.v.map((v, i) => v == null ? "" :
+    `<div class="bar-line"><div class="bar" style="width:${(v / max) * 85}%;background:var(${series[i].c})" data-tip="${series[i].n} : ${String(v).replace(".", ",")} %"></div><span class="bar-val">${String(v).replace(".", ",")} %</span></div>`).join("")}</div></div>`).join("");
+  document.getElementById(id).innerHTML = `<div class="hbars">${html}</div>` +
+    dataTable(["", ...series.map((s) => s.n)], rows.map((r) => [r.l, ...r.v.map((v) => v == null ? null : String(v).replace(".", ",") + " %")]));
+}
+
+// Colonnes verticales
+function cols(id, rows, unit, max, fmt = (v) => v) {
+  document.getElementById(id).innerHTML =
+    `<div class="cols">${rows.map((r) => `<div class="col"><span class="bar-val">${fmt(r.v)}</span><div class="bar" style="height:${(r.v / max) * 100}%;background:var(--series-1)" data-tip="${r.l} : ${fmt(r.v)} ${unit}"></div></div>`).join("")}</div>` +
+    `<div class="col-labels">${rows.map((r) => `<span>${r.l}</span>`).join("")}</div>` +
+    dataTable(["Âge", unit], rows.map((r) => [r.l, fmt(r.v)]));
+}
+
+// Barres 100 % empilées
+function stacked(id, rows, series) {
+  document.getElementById(id).innerHTML = `<div class="stack100">${rows.map((r) => `<div class="srow"><div class="lab">${r.l}</div><div class="seg-wrap">${r.v.map((v, i) =>
+    `<div class="seg" style="flex:${v};background:var(${series[i].c});color:var(${series[i].c.replace('--', '--on-')})" data-tip="${r.l} · ${series[i].n} : ${String(v).replace(".", ",")} %">${v >= 9 ? Math.round(v) + " %" : ""}</div>`).join("")}</div></div>`).join("")}</div>` +
+    dataTable(["Âge", ...series.map((s) => s.n)], rows.map((r) => [r.l, ...r.v.map((v) => String(v).replace(".", ",") + " %")]));
+}
+
+// Courbe (SVG)
+function line(id, pts) {
+  const W = 480, H = 220, L = 46, R = 24, T = 30, B = 32;
+  const x0 = 1970, x1 = 2070, yMax = 30;
+  const X = (x) => L + ((x - x0) / (x1 - x0)) * (W - L - R);
+  const Y = (y) => T + (1 - y / yMax) * (H - T - B);
+  const grid = [0, 10, 20, 30].map((g) => `<line x1="${L}" x2="${W - R}" y1="${Y(g)}" y2="${Y(g)}" stroke="var(--grid)" stroke-width="1"/><text x="${L - 8}" y="${Y(g) + 4}" text-anchor="end">${g} %</text>`).join("");
+  const path = pts.map((p, i) => `${i ? "L" : "M"}${X(p.x)},${Y(p.y)}`).join(" ");
+  const area = `${path} L${X(pts.at(-1).x)},${Y(0)} L${X(pts[0].x)},${Y(0)} Z`;
+  const dots = pts.map((p) => `<g data-tip="${p.x}${p.proj ? " (projection)" : ""} : ${p.y} %"><circle cx="${X(p.x)}" cy="${Y(p.y)}" r="14" fill="transparent"/><circle cx="${X(p.x)}" cy="${Y(p.y)}" r="5" fill="${p.proj ? "var(--surface)" : "var(--series-1)"}" stroke="var(--series-1)" stroke-width="2"/><text class="val" x="${X(p.x)}" y="${Y(p.y) - 12}" text-anchor="middle">${p.y} %</text><text x="${X(p.x)}" y="${H - 8}" text-anchor="middle">${p.x}</text></g>`).join("");
+  document.getElementById(id).innerHTML =
+    `<svg class="line-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Part des 60 ans et plus : ${pts.map((p) => p.x + " " + p.y + " %").join(", ")}">${grid}<path d="${area}" fill="var(--series-1)" opacity=".1"/><path d="${path}" fill="none" stroke="var(--series-1)" stroke-width="2"/>${dots}</svg>` +
+    dataTable(["Année", "Part des 60 ans +"], pts.map((p) => [p.x + (p.proj ? " (proj.)" : ""), p.y + " %"]));
+}
+
+/* Données */
+line("c-demo", [{ x: 1970, y: 10 }, { x: 2025, y: 22 }, { x: 2040, y: 26, proj: 1 }, { x: 2070, y: 29, proj: 1 }]);
+
+cols("c-trips", [{ l: "18-49 ans", v: 3.7 }, { l: "50-64 ans", v: 3.4 }, { l: "65-74 ans", v: 3.1 }, { l: "75-84 ans", v: 2.3 }, { l: "85 ans +", v: 1.6 }], "déplacements / jour", 4, (v) => String(v).replace(".", ","));
+
+cols("c-immob", [{ l: "45-54 ans", v: 6 }, { l: "55-64 ans", v: 14 }, { l: "65-74 ans", v: 18 }, { l: "75-84 ans", v: 31 }, { l: "85 ans +", v: 46 }], "% immobiles", 50, (v) => v + " %");
+
+const MODAL = [{ n: "Marche", c: "--series-3" }, { n: "Transports en commun", c: "--series-1" }, { n: "Voiture (conducteur + passager)", c: "--series-2" }, { n: "Autres", c: "--series-other" }];
+legend("l-modal", MODAL);
+stacked("c-modal", [
+  { l: "50-64 ans", v: [27.1, 12.4, 55.5, 5.0] },
+  { l: "65-74 ans", v: [36.9, 10.0, 51.6, 1.5] },
+  { l: "75-84 ans", v: [48.6, 14.5, 35.8, 1.1] },
+  { l: "85 ans +", v: [56.4, 12.2, 29.8, 1.6] },
+], MODAL);
+
+hbars("c-size", [
+  { l: "Agglomérations de 20 000 à 200 000 hab.", v: [13] },
+  { l: "Agglomérations de 200 000 à 2 millions hab. (Bordeaux)", v: [60] },
+  { l: "Aire urbaine de Paris", v: [68] },
+], [{ n: "78 ans +", c: "--series-1" }]);
+
+const AGES = [{ n: "60-77 ans", c: "--series-1" }, { n: "78 ans +", c: "--series-2" }];
+legend("l-freins", [...AGES, { n: "Ensemble des seniors", c: "--series-3" }]);
+const freinsRows = [
+  { l: "Craint d'être bousculé", v: [null, null, 60] },
+  { l: "Le manque de stabilité freine mon autonomie", v: [null, null, 60] },
+  { l: "La dématérialisation est complexe à maîtriser", v: [42, 52, null] },
+  { l: "S'essouffle ou s'épuise vite dans les TC", v: [41, null, null] },
+  { l: "Ne se sent pas totalement autonome dans les TC", v: [24, 38, null] },
+  { l: "Les tarifs sont un frein", v: [21, 13, null] },
+];
+hbars("c-freins", freinsRows, [...AGES, { n: "Ensemble des seniors", c: "--series-3" }]);
+
+hbars("c-illec", [
+  { l: "Moins de 40 ans", v: [3] },
+  { l: "60-74 ans", v: [23.4] },
+  { l: "75 ans et plus", v: [62.2] },
+], [{ n: "Illectronisme", c: "--series-1" }]);
+
+hbars("c-uk", [
+  { l: "Du mal à monter ou descendre du bus", v: [46] },
+  { l: "Du mal à atteindre le quai du métro", v: [35] },
+  { l: "Du mal à aller jusqu'à la station de métro", v: [28] },
+  { l: "Du mal à aller jusqu'à l'arrêt de bus", v: [27] },
+  { l: "Ne se sent pas en sécurité dans les transports", v: [24] },
+], [{ n: "Répondants", c: "--series-1" }]);
+
+/* Solutions */
+function renderSols(f) {
+  document.getElementById("sol-list").innerHTML = SOLS.filter((s) => f === "all" || s.f.includes(f)).map((s) =>
+    `<article class="sol"><span class="badge ${EV[s.ev][0]}">${EV[s.ev][1]}</span><h3>${s.t}</h3><p class="where">${s.where}</p><p class="proof">${s.proof} ${s.s.map(ref).join("")}</p><p class="answers">Répond au frein : ${s.f.map((k) => FAM[k]).join(", ")}</p></article>`).join("");
+}
+document.querySelectorAll(".filters button").forEach((b) => b.addEventListener("click", () => {
+  document.querySelectorAll(".filters button").forEach((o) => o.setAttribute("aria-pressed", String(o === b)));
+  renderSols(b.dataset.f);
+}));
+renderSols("all");
+
+/* Sources */
+document.getElementById("src-list").innerHTML = SOURCES.map(([who, what, url], i) =>
+  `<li id="s${i + 1}"><span class="t">${who}</span> · ${what}<br><a href="${url}" target="_blank" rel="noopener">${url.replace(/^https?:\/\//, "").slice(0, 90)}${url.length > 98 ? "…" : ""}</a></li>`).join("");
+
+/* Nuancier */
+const SW = [["--ca-navy-900", "Marine 900", "#002862"], ["--ca-navy-800", "Marine 800", "#0A3775"], ["--ca-blue-700", "Bleu 700", "#055ABA"], ["--ca-blue-600", "Bleu 600", "#1070D0"], ["--ca-sky-300", "Ciel 300", "#71BDFD"], ["--ca-sky-100", "Ciel 100", "#E3F1FF"], ["--series-2", "Orange (graphes)", "#EB6834"], ["--series-3", "Vert d'eau (graphes)", "#1BAF7A"]];
+document.getElementById("swatches").innerHTML = SW.map(([v, n, h]) => `<div class="swatch"><div style="background:var(${v})"></div><p>${n}<br><code>${h}</code></p></div>`).join("");
+</script>

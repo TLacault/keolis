@@ -1,0 +1,129 @@
+/*
+ * Connect'Age — design tokens v0
+ * Source des couleurs : resources/logo.png (bleus échantillonnés).
+ * Principe : lisible avant tout (public senior) — corps 18px, contrastes AA+, police Atkinson Hyperlegible.
+ * Polices à charger : Lexend (titres) + Atkinson Hyperlegible (texte), via Google Fonts.
+ */
+
+:root {
+  /* Marque (fixes, identiques dans les deux thèmes) */
+  --ca-navy-900: #002862; /* « Connect » du logo */
+  --ca-navy-800: #0a3775;
+  --ca-blue-700: #055aba;
+  --ca-blue-600: #1070d0; /* « 'Age » du logo */
+  --ca-sky-300: #71bdfd;
+  --ca-sky-100: #e3f1ff;
+
+  /* Rôles — thème clair */
+  --bg: #f6f8fc;
+  --surface: #ffffff;
+  --surface-2: #edf2f9;
+  --fg: #0b1b33;
+  --fg-muted: #46546d;
+  --line: #d3dce9;
+  --accent: #055aba;        /* liens, actions — 6.6:1 sur blanc */
+  --accent-strong: #0a3775; /* titres */
+  --accent-soft: #e3f1ff;   /* fonds de mise en avant */
+  --on-accent: #ffffff;
+
+  /* États (jamais réutilisés comme série de graphe) */
+  --good: #13753a;
+  --good-soft: #e3f4e9;
+  --warn: #a14a00;
+  --warn-soft: #fdeedd;
+
+  /* Séries de graphes — validées (CVD, contraste) */
+  --series-1: #1070d0; /* bleu marque */
+  --series-2: #eb6834; /* orange contraste */
+  --series-3: #1baf7a; /* vert d'eau */
+  --series-other: #9aa3b5;
+  /* Texte posé sur une série (étiquettes directes) */
+  --on-series-1: #ffffff;
+  --on-series-2: #0b1b33;
+  --on-series-3: #0b1b33;
+  --on-series-other: #0b1b33;
+  --grid: #e3e9f2;
+
+  /* Typo */
+  --font-display: "Lexend", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Verdana", system-ui, sans-serif;
+  --text-xs: 0.875rem;  /* 14px — légendes uniquement */
+  --text-sm: 1rem;      /* 16px */
+  --text-md: 1.125rem;  /* 18px — corps */
+  --text-lg: 1.375rem;  /* 22px */
+  --text-xl: 1.75rem;   /* 28px */
+  --text-2xl: 2.25rem;  /* 36px */
+  --text-3xl: clamp(2.25rem, 5vw, 3.25rem);
+  --leading: 1.6;
+
+  /* Espace, formes */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-pill: 999px;
+  --focus-ring: 0 0 0 3px var(--surface), 0 0 0 6px var(--accent);
+  --tap-min: 48px; /* cible tactile minimum */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #07111e;
+    --surface: #0e1b2d;
+    --surface-2: #15273f;
+    --fg: #eaf1fb;
+    --fg-muted: #a8b7cc;
+    --line: #253952;
+    --accent: #71bdfd;
+    --accent-strong: #b4dcff;
+    --accent-soft: #12304f;
+    --on-accent: #07111e;
+    --good: #5fd08b;
+    --good-soft: #10301f;
+    --warn: #ffad66;
+    --warn-soft: #3a2410;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --series-other: #5e6b80;
+    --on-series-1: #07111e;
+    --on-series-2: #07111e;
+    --on-series-3: #07111e;
+    --on-series-other: #ffffff;
+    --grid: #1c2d44;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #07111e;
+  --surface: #0e1b2d;
+  --surface-2: #15273f;
+  --fg: #eaf1fb;
+  --fg-muted: #a8b7cc;
+  --line: #253952;
+  --accent: #71bdfd;
+  --accent-strong: #b4dcff;
+  --accent-soft: #12304f;
+  --on-accent: #07111e;
+  --good: #5fd08b;
+  --good-soft: #10301f;
+  --warn: #ffad66;
+  --warn-soft: #3a2410;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-other: #5e6b80;
+  --on-series-1: #07111e;
+  --on-series-2: #07111e;
+  --on-series-3: #07111e;
+  --on-series-other: #ffffff;
+  --grid: #1c2d44;
+  color-scheme: dark;
+}
