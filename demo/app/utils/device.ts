@@ -2,9 +2,11 @@
 
 export const voiceOn = ref(true)
 
+export const hush = () => window.speechSynthesis?.cancel()
+
 export function say(text: string) {
+  hush()
   if (!voiceOn.value || !('speechSynthesis' in window)) return
-  speechSynthesis.cancel()
   const u = new SpeechSynthesisUtterance(text)
   u.lang = 'fr-FR'
   u.rate = 0.92

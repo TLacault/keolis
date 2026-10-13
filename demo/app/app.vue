@@ -5,8 +5,15 @@ import { LifeBuoy, Volume2, VolumeX } from 'lucide-vue-next'
 type Screen = 'welcome' | 'home' | 'preview' | 'guide' | 'arrived'
 
 const seen = (() => { try { return localStorage.getItem('ca-welcome') === '1' } catch { return false } })()
-const screen = ref<Screen>(seen ? 'home' : 'welcome')
-const trip = ref<Trip | null>(null)
+
+// Main entry: a link sent by SMS (by a relative or the TBM phone line), e.g. ?t=med&h=14:30&de=Marie
+// opens straight on that prepared trip. t = trip id, h = appointment time, de = who prepared it.
+const q = new URLSearchParams(location.search)
+const linked = TRIPS.find(t => t.id === q.get('t')) ?? null
+const invite = linked ? { by: q.get('de'), at: q.get('h')?.match(/^\d{1,2}[:h]\d{2}$/) ? q.get('h')!.replace('h', ':') : null } : null
+
+const screen = ref<Screen>(linked ? 'preview' : seen ? 'home' : 'welcome')
+const trip = ref<Trip | null>(linked)
 const step = ref(-1)
 const me = ref<LatLng | null>(null)
 const realGps = ref<LatLng | null>(null)
@@ -18,14 +25,21 @@ const nearBordeaux = (p: LatLng) => Math.abs(p[0] - 44.84) < 0.15 && Math.abs(p[
 function startGps() {
   navigator.geolocation?.watchPosition(
     (p) => {
+      const firstFix = !realGps.value
       realGps.value = [p.coords.latitude, p.coords.longitude]
+      // Opened from a link: re-plan the first walk from where the person really is.
+      if (firstFix && screen.value === 'preview' && trip.value && nearBordeaux(realGps.value)) pick(trip.value)
       if (screen.value === 'home' || screen.value === 'welcome') me.value = nearBordeaux(realGps.value) ? realGps.value : HOME.at
     },
     () => { me.value ??= HOME.at },
     { enableHighAccuracy: true, maximumAge: 5000 },
   )
 }
-onMounted(() => { me.value = HOME.at; if (seen) startGps() })
+onMounted(() => {
+  me.value = HOME.at
+  if (seen || linked) startGps()
+  if (linked) loadWalkPaths(linked).then(() => { if (trip.value?.id === linked.id) trip.value = { ...linked } })
+})
 
 function welcomeDone() {
   try { localStorage.setItem('ca-welcome', '1') } catch {}
@@ -57,15 +71,22 @@ function finish() {
 }
 
 function home() {
+  hush()
+  keepAwake(false)
+  help.value = false
   screen.value = 'home'
   trip.value = null
   step.value = -1
   me.value = realGps.value && nearBordeaux(realGps.value) ? realGps.value : HOME.at
 }
 
-const toggleVoice = () => { voiceOn.value = !voiceOn.value; say('La voix est activée.') }
+function toggleVoice() {
+  voiceOn.value = !voiceOn.value
+  if (voiceOn.value) say('La voix est activée.')
+  else hush()
+}
 
-const sheetH = computed(() => screen.value === 'guide' ? 460 : 420)
+const sheetH = computed(() => screen.value === 'guide' ? 460 : 400)
 const showMap = computed(() => screen.value === 'preview' || screen.value === 'guide')
 </script>
 
@@ -108,11 +129,11 @@ const showMap = computed(() => screen.value === 'preview' || screen.value === 'g
     <AnimatePresence mode="wait">
       <ScreenWelcome v-if="screen === 'welcome'" key="welcome" @done="welcomeDone" />
       <ScreenHome v-else-if="screen === 'home'" key="home" :near="!!realGps && nearBordeaux(realGps)" @pick="pick" />
-      <ScreenPreview v-else-if="screen === 'preview' && trip" key="preview" :trip="trip" @back="home" @go="go" />
+      <ScreenPreview v-else-if="screen === 'preview' && trip" key="preview" :trip="trip" :invite="trip.id === linked?.id ? invite : null" @back="home" @go="go" />
       <ScreenGuide v-else-if="screen === 'guide' && trip" key="guide" v-model:step="step" v-model:me="me" :trip="trip" @done="finish" />
       <ScreenArrived v-else-if="screen === 'arrived' && trip" key="arrived" :trip="trip" @home="home" />
     </AnimatePresence>
 
-    <HelpSheet :open="help" :trip="trip" :step="step" @close="help = false" />
+    <HelpSheet :open="help" :trip="trip" :step="step" @close="help = false" @stop="home" />
   </div>
 </template>

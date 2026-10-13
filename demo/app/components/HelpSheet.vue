@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { AnimatePresence, motion } from 'motion-v'
-import { Heart, MapPin, PhoneCall, X } from 'lucide-vue-next'
+import { Heart, MapPin, PhoneCall, Square, X } from 'lucide-vue-next'
 
 const props = defineProps<{ open: boolean, trip: Trip | null, step: number }>()
-const emit = defineEmits<{ close: [] }>()
+const emit = defineEmits<{ close: [], stop: [] }>()
 
 watch(() => props.open, o => o && say("Pas d'inquiétude. Vous pouvez appeler un proche ou un agent TBM."))
 
@@ -46,7 +46,10 @@ function whereAmI() {
         </button>
       </div>
 
-      <button class="press mt-4 flex h-16 w-full items-center justify-center gap-2 rounded-2xl text-xl font-bold text-navy ring-2 ring-line" @click="emit('close')">
+      <button v-if="step >= 0" class="press mt-4 flex h-16 w-full items-center justify-center gap-2 rounded-2xl text-xl font-bold text-help ring-2 ring-help/30" @click="emit('stop')">
+        <Square :size="22" /> Arrêter le trajet
+      </button>
+      <button class="press mt-3 flex h-16 w-full items-center justify-center gap-2 rounded-2xl text-xl font-bold text-navy ring-2 ring-line" @click="emit('close')">
         <X :size="24" /> Fermer
       </button>
     </motion.div>

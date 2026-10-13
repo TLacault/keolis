@@ -48,7 +48,7 @@ function draw() {
 function frame() {
   const t = props.trip
   if (!ready || !t) return
-  const pts = props.step < 0 ? t.steps.flatMap(stepPath) : stepPath(t.steps[props.step]!)
+  const pts = props.step < 0 ? t.steps.flatMap(stepPath) : [...stepPath(t.steps[props.step]!)] // copy: stepPath returns the step's own array
   if (props.me) pts.push(props.me)
   const b = new maplibregl.LngLatBounds()
   pts.forEach(p => b.extend(ll(p)))
