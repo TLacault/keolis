@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "pitch/index.html"
+        ],
+        "createdAt": "2026-10-14T06:37:39.131Z",
+        "reason": "model: phone screen and ticker clip by design in a video stage; no glow on dark bg"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "pitch/index.html"
+        ],
+        "createdAt": "2026-10-14T06:37:39.139Z",
+        "reason": "model: phone screen and ticker clip by design in a video stage; no glow on dark bg"
+      }
+    ]
+  }
+}
