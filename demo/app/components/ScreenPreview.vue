@@ -20,8 +20,10 @@ const leaveAt = computed(() => {
 })
 const arrival = computed(() => clock(new Date((leaveAt.value?.getTime() ?? Date.now()) + mins * 60_000)))
 
+type PreviewLeg = { kind: 'walk', text: string, sub: string } | { kind: 'ride', line: LineId, change: boolean, text: string, sub: string }
+
 // Collapse wait+ride into one readable line per leg.
-const legs = computed(() => props.trip.steps.flatMap((s, i) => {
+const legs = computed<PreviewLeg[]>(() => props.trip.steps.flatMap<PreviewLeg>((s, i) => {
   if (s.kind === 'walk') return [{ kind: 'walk' as const, text: `Marcher ${s.minutes} min`, sub: `jusqu'à ${s.to}` }]
   if (s.kind === 'ride') {
     const change = props.trip.steps[i - 2]?.kind === 'ride'
