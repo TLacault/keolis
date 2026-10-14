@@ -42,6 +42,16 @@ const STOP_BY_ID: Record<string, StopInfo> = {
   theatre: { name: 'Grand Théâtre', at: [44.84201, -0.57529] },
   quinconces: { name: 'Quinconces', at: [44.84500, -0.57390] },
   jardin: { name: 'Jardin Public', at: [44.84790, -0.57310] },
+  nicolas: { name: 'Saint-Nicolas', at: [44.82790, -0.57520] },
+  bergonie: { name: 'Bergonié', at: [44.82506, -0.57818] },
+  genes: { name: 'Barrière Saint-Genès', at: [44.82079, -0.58312] },
+  roustaing: { name: 'Roustaing', at: [44.81695, -0.58568] },
+  forum: { name: 'Forum', at: [44.81210, -0.58930] },
+  peixotto: { name: 'Peixotto', at: [44.80696, -0.59301] },
+  bethanie: { name: 'Béthanie', at: [44.80602, -0.59799] },
+  arts: { name: 'Arts et Métiers', at: [44.80601, -0.60234] },
+  brus: { name: 'Doyen Brus', at: [44.80028, -0.60967] },
+  montaigne: { name: 'Montaigne-Montesquieu', at: [44.79687, -0.61741] },
 }
 
 const STOP_TAGS: Record<string, string[]> = {
@@ -88,8 +98,8 @@ export function resolvePlace(text: string): ResolvedLayout | null {
   const t = norm(text)
   if (!t) return null
   if (/(^|\b)(chez moi|maison|domicile)(\b|$)/.test(t)) {
-    const w = walkOf(meter(HOME.at, stop('hdv').at))
-    return { kind: 'home', name: 'Chez moi', at: HOME.at, stop: 'hdv', footMin: w.minutes, footM: w.meters }
+    const w = walkOf(meter(HOME.at, stop('montaigne').at))
+    return { kind: 'home', name: 'Chez moi', at: HOME.at, stop: 'montaigne', footMin: w.minutes, footM: w.meters }
   }
   for (const p of POIS) {
     for (const tag of p.tags) if (norm(tag) && t.includes(norm(tag))) return p
@@ -127,7 +137,7 @@ const LINE_ROUTES: Record<LineId, LineRoute[]> = {
     { direction: 'Floirac Dravemont', path: ['hdv', 'catherine', 'bourgogne', 'stalingrad'] },
   ],
   B: [
-    { direction: 'Pessac Centre', path: ['hdv', 'musee', 'victoire'] },
+    { direction: 'Pessac Centre', path: ['hdv', 'musee', 'victoire', 'nicolas', 'bergonie', 'genes', 'roustaing', 'forum', 'peixotto', 'bethanie', 'arts', 'brus', 'montaigne'] },
     { direction: 'Berges de la Garonne', path: ['hdv', 'gambetta', 'theatre', 'quinconces'] },
   ],
   C: [
