@@ -13,7 +13,7 @@ const ease = [0.22, 1, 0.36, 1] as const
   >
     <div class="flex flex-1 flex-col items-center justify-center text-center">
       <motion.img
-        src="/logo.png" alt="Connect'Age" class="w-56"
+        src="/logo.png" alt="Facili'TBM" class="w-72"
         :initial="{ opacity: 0, scale: 0.85 }" :animate="{ opacity: 1, scale: 1 }" :transition="{ duration: 0.9, ease }"
       />
       <motion.div :initial="{ opacity: 0, y: 20 }" :animate="{ opacity: 1, y: 0 }" :transition="{ delay: 0.3, duration: 0.7, ease }">

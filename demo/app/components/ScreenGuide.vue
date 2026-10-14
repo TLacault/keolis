@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { AnimatePresence, motion } from 'motion-v'
-import { BellRing, Check, Footprints, Hourglass, Info, Armchair, Volume2 } from 'lucide-vue-next'
+import { BellRing, Check, Footprints, MapPin, TramFront, Volume2 } from 'lucide-vue-next'
 
-const props = defineProps<{ trip: Trip }>()
+const props = defineProps<{ trip: Trip, full: boolean }>()
 const step = defineModel<number>('step', { required: true })
 const me = defineModel<LatLng | null>('me', { required: true })
 const emit = defineEmits<{ done: [] }>()
@@ -38,9 +38,9 @@ function animate(path: LatLng[], ms: number, then?: () => void) {
 }
 
 function speech(x: Step) {
-  if (x.kind === 'walk') return `Marchez jusqu'à ${isLast.value ? '' : "l'arrêt "}${x.to}. Environ ${x.minutes} minutes. ${x.tip ?? ''}`
-  if (x.kind === 'wait') return `Attendez le tram ${x.line}, direction ${x.direction}. Il arrive dans ${x.inMin} minutes. ${x.tip}`
-  return `Restez dans le tram. Vous descendrez à ${x.stops.at(-1)!.name}, dans ${x.stops.length - 1} arrêts. Je vous préviendrai.`
+  if (x.kind === 'walk') return `Marchez jusqu'à ${isLast.value ? '' : "l'arrêt "}${x.to}. ${x.tip ?? ''}`
+  if (x.kind === 'wait') return `Attendez le tram ${x.line}, direction ${x.direction}. ${x.tip}`
+  return `Restez dans le tram. Je vous dirai quand descendre.`
 }
 
 function run() {
@@ -75,7 +75,7 @@ function run() {
         stopIdx.value = i + 1
         if (remaining.value === 1) {
           buzz([300, 150, 300])
-          say(`Attention. Prochain arrêt : ${x.stops.at(-1)!.name}. Préparez-vous à descendre.`)
+          say(`Au prochain arrêt, vous descendez. Préparez-vous.`)
         }
         if (remaining.value === 0) {
           clearInterval(timer)
@@ -103,114 +103,57 @@ const action = computed(() => {
   return x.kind === 'wait' ? 'Je suis monté' : 'Je suis descendu'
 })
 
-const kindLabel = computed(() => ({ walk: 'À pied', wait: 'Sur le quai', ride: 'Dans le tram' })[s.value.kind])
-const kindIcon = computed(() => ({ walk: Footprints, wait: Hourglass, ride: Armchair })[s.value.kind])
 const accent = computed(() => s.value.kind === 'walk' ? '#002862' : LINES[s.value.line].color)
+const alert = computed(() => s.value.kind === 'ride' && remaining.value === 1)
+
+// One instruction at a time: an icon, a verb, a place. No times, distances or step counts.
+const view = computed(() => {
+  const x = s.value
+  if (x.kind === 'walk') return reached.value
+    ? { icon: isLast.value ? MapPin : Check, title: isLast.value ? 'Vous êtes arrivé' : "Vous êtes à l'arrêt", place: x.to }
+    : { icon: Footprints, title: isLast.value ? "Marchez jusqu'à" : "Marchez jusqu'à l'arrêt", place: x.to }
+  if (x.kind === 'wait') return { icon: null, title: reached.value ? 'Le tram arrive, montez' : 'Attendez le tram', place: x.direction }
+  const end = x.stops.at(-1)!.name
+  if (remaining.value === 0) return { icon: Check, title: 'Descendez maintenant', place: end }
+  if (remaining.value === 1) return { icon: BellRing, title: 'Prochain arrêt : descendez', place: end }
+  return { icon: TramFront, title: 'Restez dans le tram', place: null, note: 'Je vous préviens.' }
+})
+const phase = computed(() => `${step.value}-${reached.value}-${Math.min(remaining.value, 2)}`)
 </script>
 
 <template>
   <motion.section class="absolute inset-0 z-[400] flex flex-col justify-end" :initial="{ opacity: 0 }" :animate="{ opacity: 1 }" :exit="{ opacity: 0 }">
-    <!-- Get-off alert: impossible to miss, sits above the card. -->
-    <AnimatePresence>
-      <motion.div
-        v-if="s.kind === 'ride' && remaining === 1"
-        class="mx-4 mb-3 flex items-center gap-3 rounded-2xl bg-alert-soft p-4 text-alert shadow-xl ring-2 ring-alert/30"
-        :initial="{ opacity: 0, y: 30, scale: 0.9 }" :animate="{ opacity: 1, y: 0, scale: 1 }" :exit="{ opacity: 0, y: 20 }"
-        :transition="{ type: 'spring', damping: 18, stiffness: 300 }"
-        role="alert"
-      >
-        <BellRing :size="34" class="shrink-0 animate-[wiggle_0.6s_ease-in-out_3]" />
-        <p class="text-xl font-bold leading-snug">Prochain arrêt : c'est le vôtre.<br><span class="font-normal">Préparez-vous à descendre.</span></p>
-      </motion.div>
-    </AnimatePresence>
-
-    <motion.div
-      class="rounded-t-[2rem] bg-white px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-[0_-12px_40px_-12px_rgb(0_40_98/.35)]"
-      :initial="{ y: 60 }" :animate="{ y: 0 }" :transition="{ type: 'spring', damping: 28, stiffness: 240 }"
+    <div
+      class="flex flex-col px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] transition-colors duration-500"
+      :class="[
+        full ? 'h-full pt-[calc(max(1rem,env(safe-area-inset-top))+5rem)]' : 'rounded-t-[2rem] pt-6 shadow-[0_-12px_40px_-12px_rgb(0_40_98/.35)]',
+        alert ? 'bg-alert-soft' : 'bg-white',
+      ]"
+      :role="alert ? 'alert' : undefined"
     >
-      <!-- Progress: one segment per step, coloured like the line. -->
-      <div class="flex gap-1.5" :aria-label="`Étape ${step + 1} sur ${trip.steps.length}`">
-        <span
-          v-for="(x, i) in trip.steps" :key="i"
-          class="h-2 flex-1 rounded-full transition-colors duration-500"
-          :style="{ background: i <= step ? (x.kind === 'walk' ? '#002862' : LINES[x.line].color) : '#d3dce9', opacity: i < step ? 0.4 : 1 }"
-        />
-      </div>
-      <div class="mt-3 flex items-center justify-between text-base text-muted">
-        <span class="flex items-center gap-1.5 font-bold" :style="{ color: accent }"><component :is="kindIcon" :size="20" /> {{ kindLabel }}</span>
-        <span>Étape {{ step + 1 }} sur {{ trip.steps.length }}</span>
-      </div>
-
       <AnimatePresence mode="wait">
         <motion.div
-          :key="step"
-          class="mt-3 min-h-[184px]"
-          :initial="{ opacity: 0, x: 40 }" :animate="{ opacity: 1, x: 0 }" :exit="{ opacity: 0, x: -40 }" :transition="{ duration: 0.35, ease }"
+          :key="phase"
+          class="flex flex-1 flex-col items-center justify-center gap-5 text-center"
+          :initial="{ opacity: 0, y: 24 }" :animate="{ opacity: 1, y: 0 }" :exit="{ opacity: 0, y: -24 }" :transition="{ duration: 0.35, ease }"
         >
-          <!-- Walk -->
-          <template v-if="s.kind === 'walk'">
-            <h2 class="font-display text-[1.75rem] font-bold leading-tight text-navy">
-              Marchez jusqu'à<br><span class="text-blue">{{ isLast ? s.to : `l'arrêt ${s.to}` }}</span>
-            </h2>
-            <p class="mt-2 text-xl text-ink">Environ <strong>{{ s.minutes }} min</strong> · {{ s.meters }} m</p>
-            <p v-if="s.tip" class="mt-3 flex gap-2 rounded-xl bg-bg p-3 text-lg leading-snug text-muted"><Info :size="22" class="mt-0.5 shrink-0" />{{ s.tip }}</p>
+          <template v-if="full">
+            <LineBadge v-if="s.kind === 'wait'" :line="s.line" :size="120" />
+            <span v-else class="grid size-30 place-items-center rounded-full text-white" :class="alert && 'animate-[wiggle_0.6s_ease-in-out_3]'" :style="{ background: alert ? '#8a4b00' : accent }">
+              <component :is="view.icon" :size="60" :stroke-width="2.5" />
+            </span>
           </template>
-
-          <!-- Wait on platform -->
-          <template v-else-if="s.kind === 'wait'">
-            <div class="flex items-center gap-4">
-              <LineBadge :line="s.line" :size="64" />
-              <div>
-                <p class="text-lg text-muted">Attendez le tram</p>
-                <p class="font-display text-[1.5rem] font-bold leading-tight text-ink">direction<br>{{ s.direction }}</p>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center gap-3 rounded-2xl p-3.5" :class="reached ? 'bg-good-soft text-good' : 'bg-sky text-navy'">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  :key="reached ? 'here' : waitLeft"
-                  class="font-display text-2xl font-bold"
-                  :initial="{ opacity: 0, y: 12 }" :animate="{ opacity: 1, y: 0 }" :exit="{ opacity: 0, y: -12 }" :transition="{ duration: 0.25 }"
-                >
-                  {{ reached ? 'Le tram arrive !' : `Il arrive dans ${waitLeft} min` }}
-                </motion.p>
-              </AnimatePresence>
-            </div>
-            <p class="mt-3 flex gap-2 text-lg leading-snug text-muted"><Info :size="22" class="mt-0.5 shrink-0" />{{ s.tip }}</p>
-          </template>
-
-          <!-- On board -->
-          <template v-else>
-            <div class="flex items-center gap-4">
-              <div class="relative grid size-24 shrink-0 place-items-center rounded-full text-white" :style="{ background: accent }">
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    :key="remaining"
-                    class="font-display text-5xl font-bold"
-                    :initial="{ opacity: 0, scale: 0.5 }" :animate="{ opacity: 1, scale: 1 }" :exit="{ opacity: 0, scale: 1.4 }" :transition="{ duration: 0.3 }"
-                  >
-                    <Check v-if="remaining === 0" :size="52" :stroke-width="3" />
-                    <template v-else>{{ remaining }}</template>
-                  </motion.span>
-                </AnimatePresence>
-              </div>
-              <div>
-                <p class="font-display text-[1.5rem] font-bold leading-tight text-ink">
-                  {{ remaining === 0 ? 'Descendez maintenant' : remaining === 1 ? 'arrêt avant de descendre' : 'arrêts avant de descendre' }}
-                </p>
-                <p class="mt-1 text-lg text-muted">Restez assis, je vous préviens.</p>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center justify-between rounded-2xl bg-bg p-3.5">
-              <span class="text-lg text-muted">Descendez à</span>
-              <span class="font-display text-xl font-bold" :style="{ color: accent }">{{ s.stops.at(-1)!.name }}</span>
-            </div>
-            <p class="mt-2 text-base text-muted">Arrêt actuel : <strong class="text-ink">{{ s.stops[stopIdx]!.name }}</strong></p>
-          </template>
+          <div>
+            <h2 class="font-display text-[2rem] font-bold leading-tight" :class="alert ? 'text-alert' : 'text-navy'">{{ view.title }}</h2>
+            <p v-if="view.place" class="mt-1 font-display text-[2rem] font-bold leading-tight" :style="{ color: alert ? undefined : s.kind === 'walk' ? '#055aba' : accent }">
+              <span v-if="s.kind === 'wait'" class="block text-2xl font-normal text-muted">direction</span>{{ view.place }}
+            </p>
+            <p v-if="'note' in view" class="mt-2 text-2xl text-muted">{{ view.note }}</p>
+          </div>
         </motion.div>
       </AnimatePresence>
 
-      <div class="mt-4 flex gap-3">
+      <div class="mt-6 flex gap-3">
         <button class="press grid size-18 shrink-0 place-items-center rounded-2xl bg-sky text-navy" aria-label="Répéter à voix haute" @click="say(speech(s))">
           <Volume2 :size="32" />
         </button>
@@ -222,7 +165,7 @@ const accent = computed(() => s.value.kind === 'walk' ? '#002862' : LINES[s.valu
           {{ action }}
         </button>
       </div>
-    </motion.div>
+    </div>
   </motion.section>
 </template>
 

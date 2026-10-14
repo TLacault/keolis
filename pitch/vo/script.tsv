@@ -1,13 +1,8 @@
-s1	N	Voici Jeannine, soixante-dix-huit ans. Demain, elle a rendez-vous à l'hôpital Pellegrin.
-s2	N	Le tram A l'y emmène en vingt minutes. Pourtant, elle hésite.
-s3	N	Pas à cause de ses jambes. À cause de la peur : se tromper de direction, rater son arrêt, se perdre dans une correspondance.
-s4	N	Ce frein a un nom : l'anxiété cognitive. Soixante pour cent des seniors craignent d'être bousculés dans les transports. Soixante-deux pour cent des plus de soixante-quinze ans sont en difficulté avec le numérique.
-s5	N	Les applications existent, mais elles en disent trop, au mauvais moment. Alors Jeannine reste chez elle.
-s6	N	Avec Connect'Age, le trajet se prépare avant même de sortir.
-s7	N	Jeannine appelle Allo TBM. Un conseiller lui pose six questions simples : où, d'où, quand, et ce dont elle a besoin.
+s6	N	Voici Facili'TBM. Le trajet en tram, préparé pour vous, puis guidé pas à pas.
+s7	N	Jeannine, soixante-dix-huit ans, a rendez-vous à l'hôpital Pellegrin. Elle appelle Allo TBM. Un conseiller lui pose six questions simples.
 s8	N	Quelques secondes plus tard, elle reçoit un SMS. Un seul lien. Son trajet est prêt.
-s9	N	Le jour venu, l'application la guide, une étape à la fois. Une grande consigne. Une voix qui rassure.
+s9	N	Le jour venu, l'application la guide. Une seule consigne à l'écran, en grand. Pas de minutes, pas de chiffres. Une voix qui rassure.
 s10	A	Montez dans le tram violet. Sur l'avant du tram, il est écrit : Mérignac.
-s11	N	Elle suit ses arrêts, un par un. Et au moindre doute, le bouton Aide est toujours là.
+s11	N	Dans le tram, rien à compter. Au bon moment, l'écran lui dit : descendez. Et au moindre doute, le bouton Aide est toujours là.
 s12	A	Bravo, vous êtes arrivée.
-s13	N	Connect'Age s'appuie sur ce que TBM a déjà : la ligne Allo TBM, le SMS, et les données du réseau. Moins d'anxiété, plus d'autonomie. Pour que chacun garde sa place dans le tram.
+s13	N	Facili'TBM s'appuie sur ce que TBM a déjà : la ligne Allo TBM, le SMS, et les données du réseau. Moins d'anxiété, plus d'autonomie. Pour que chacun garde sa place dans le tram.

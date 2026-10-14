@@ -10,7 +10,7 @@ watch(() => props.open, o => o && say("Pas d'inquiétude. Vous pouvez appeler un
 function whereAmI() {
   const s = props.trip?.steps[props.step]
   const text = !s ? 'Vous êtes à Bordeaux, près de chez vous.'
-    : s.kind === 'walk' ? `Vous marchez vers ${s.to}. C'est à environ ${s.minutes} minutes.`
+    : s.kind === 'walk' ? `Vous marchez vers ${s.to}.`
       : s.kind === 'wait' ? `Vous êtes à l'arrêt ${s.stop}. Vous attendez le tram ${s.line}, direction ${s.direction}.`
         : `Vous êtes dans le tram ${s.line}. Vous descendrez à ${s.stops.at(-1)!.name}.`
   say(text)

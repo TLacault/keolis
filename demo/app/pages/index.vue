@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AnimatePresence, motion } from 'motion-v'
-import { LifeBuoy, Volume2, VolumeX } from 'lucide-vue-next'
+import { LifeBuoy, Map as MapIcon, Volume2, VolumeX } from 'lucide-vue-next'
 
 type Screen = 'welcome' | 'home' | 'preview' | 'guide' | 'arrived'
 
@@ -20,6 +20,7 @@ const step = ref(-1)
 const me = ref<LatLng | null>(null)
 const realGps = ref<LatLng | null>(null)
 const help = ref(false)
+const mapOpen = ref(false) // guide is full screen; the map is opt-in
 
 // ponytail: real GPS only replaces the demo "home" when you're actually in Bordeaux; the guided part is simulated.
 const nearBordeaux = (p: LatLng) => Math.abs(p[0] - 44.84) < 0.15 && Math.abs(p[1] + 0.58) < 0.2
@@ -61,6 +62,7 @@ async function pick(t: Trip) {
 
 function go() {
   step.value = 0
+  mapOpen.value = false
   screen.value = 'guide'
   keepAwake(true)
 }
@@ -88,7 +90,7 @@ function toggleVoice() {
   else hush()
 }
 
-const sheetH = computed(() => screen.value === 'guide' ? 460 : 400)
+const sheetH = computed(() => screen.value === 'guide' ? 260 : 400)
 const showMap = computed(() => screen.value === 'preview' || screen.value === 'guide')
 </script>
 
@@ -112,7 +114,16 @@ const showMap = computed(() => screen.value === 'preview' || screen.value === 'g
         :initial="{ opacity: 0, y: -16 }" :animate="{ opacity: 1, y: 0 }" :exit="{ opacity: 0, y: -16 }"
       >
         <button
-          class="press pointer-events-auto flex h-14 items-center gap-2 rounded-full bg-white px-4 font-bold text-navy shadow-lg"
+          v-if="screen === 'guide'"
+          class="press pointer-events-auto flex h-14 items-center gap-2 rounded-full px-4 font-bold shadow-lg ring-1 ring-line"
+          :class="mapOpen ? 'bg-navy text-white' : 'bg-white text-navy'"
+          :aria-pressed="mapOpen"
+          @click="mapOpen = !mapOpen"
+        >
+          <MapIcon :size="26" /> Carte
+        </button>
+        <button
+          class="press pointer-events-auto flex h-14 items-center gap-2 rounded-full bg-white px-4 font-bold text-navy shadow-lg ring-1 ring-line"
           :aria-label="voiceOn ? 'Couper la voix' : 'Activer la voix'"
           @click="toggleVoice"
         >
@@ -130,9 +141,9 @@ const showMap = computed(() => screen.value === 'preview' || screen.value === 'g
 
     <AnimatePresence mode="wait">
       <ScreenWelcome v-if="screen === 'welcome'" key="welcome" @done="welcomeDone" />
-      <ScreenHome v-else-if="screen === 'home'" key="home" :near="!!realGps && nearBordeaux(realGps)" @pick="pick" />
+      <ScreenHome v-else-if="screen === 'home'" key="home" @pick="pick" />
       <ScreenPreview v-else-if="screen === 'preview' && trip" key="preview" :trip="trip" :invite="trip.id === linked?.id ? invite : null" @back="home" @go="go" />
-      <ScreenGuide v-else-if="screen === 'guide' && trip" key="guide" v-model:step="step" v-model:me="me" :trip="trip" @done="finish" />
+      <ScreenGuide v-else-if="screen === 'guide' && trip" key="guide" v-model:step="step" v-model:me="me" :trip="trip" :full="!mapOpen" @done="finish" />
       <ScreenArrived v-else-if="screen === 'arrived' && trip" key="arrived" :trip="trip" @home="home" />
     </AnimatePresence>
 

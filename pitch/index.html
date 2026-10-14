@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Connect'Age Pitch</title>
+<title>Facili'TBM Pitch</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@400;500;600;700&display=block" rel="stylesheet">
@@ -36,36 +36,6 @@ body { background: #e4eaf3; color: var(--ink); font-family: var(--body); overflo
 #cap.app { color: var(--blue); font-weight: 700; }
 #cap.app::before { content: "🔊  "; }
 
-/* scene 1 */
-#avatar { left: 160px; top: 150px; width: 104px; height: 104px; border-radius: 50%; background: var(--sky); color: var(--blue); display: grid; place-items: center; }
-#who { left: 160px; top: 300px; font-size: 156px; line-height: 1; font-weight: 700; color: var(--navy); }
-#who .b { color: var(--blue-6); }
-#rdv { left: 1110px; top: 190px; width: 620px; padding: 0; overflow: hidden; }
-#rdv .top { background: var(--blue); color: #fff; padding: 22px 36px; font: 600 30px var(--display); letter-spacing: .1em; display: flex; justify-content: space-between; }
-#rdv .bd { padding: 32px 36px 40px; }
-#rdv .h { font: 700 120px/1 var(--display); color: var(--navy); letter-spacing: -.03em; }
-#rdv .pl { margin-top: 22px; display: flex; gap: 18px; align-items: center; font: 600 40px var(--display); color: var(--ink); }
-#rdv .sub { margin-top: 6px; margin-left: 66px; font-size: 30px; color: var(--muted); }
-#tline { left: 0; top: 0; }
-.stopname { font: 600 24px var(--display); fill: var(--muted); }
-
-/* scene 2 */
-#notlegs, #fear { left: 160px; font-size: 104px; font-weight: 700; line-height: 1.02; }
-#notlegs { top: 300px; color: var(--muted); }
-#fear { top: 560px; color: var(--warn); }
-.bubble { width: 640px; padding: 30px 36px; display: flex; gap: 28px; align-items: center; font: 600 46px var(--display); color: var(--ink); }
-.bubble .ic { flex: none; width: 92px; height: 92px; border-radius: 50%; background: var(--warn-soft); color: var(--warn); display: grid; place-items: center; }
-
-/* scene 3 */
-#nom { left: 0; right: 0; top: 140px; text-align: center; }
-#nom h2 { font-size: 132px; font-weight: 700; color: var(--navy); line-height: 1.05; margin-top: 18px; }
-.stat { top: 520px; width: 760px; display: flex; gap: 44px; align-items: center; }
-.ring { position: relative; flex: none; width: 260px; height: 260px; }
-.ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
-.ring b { position: absolute; inset: 0; display: grid; place-items: center; font: 700 84px var(--display); letter-spacing: -.04em; }
-.stat p { font: 500 40px/1.25 var(--display); color: var(--ink); }
-.stat small { display: block; margin-top: 14px; font: 400 24px var(--body); color: var(--muted); }
-
 /* phone */
 #phone { left: 740px; top: 50px; width: 440px; height: 900px; border-radius: 66px; background: #0b1b33; padding: 13px; box-shadow: 0 60px 90px -40px rgb(0 40 98 / .55); z-index: 10; visibility: hidden; }
 #screen { position: relative; width: 100%; height: 100%; border-radius: 54px; overflow: hidden; background: var(--white); }
@@ -75,22 +45,25 @@ body { background: #e4eaf3; color: var(--ink); font-family: var(--body); overflo
 .pill { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; font: 700 20px var(--body); }
 .bigbtn { margin-top: 18px; height: 76px; border-radius: 20px; background: var(--navy); color: #fff; display: grid; place-items: center; font: 600 26px var(--display); }
 .badge { display: grid; place-items: center; border-radius: 16px; background: var(--tram-a); color: #fff; font: 700 36px var(--display); }
-.seg { display: flex; gap: 6px; }
-.seg i { flex: 1; height: 8px; border-radius: 9px; background: var(--line); }
+.full { position: absolute; inset: 0; background: #fff; display: flex; flex-direction: column; padding: 130px 24px 30px; }
+.full .mid { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 26px; }
+.full .ic { width: 132px; height: 132px; border-radius: 50%; display: grid; place-items: center; color: #fff; font: 700 70px var(--display); }
+.full h3 { font: 700 38px/1.15 var(--display); color: var(--navy); letter-spacing: -.02em; }
+.full .pl { margin-top: 6px; font: 700 38px/1.15 var(--display); letter-spacing: -.02em; }
+.full .note { margin-top: 10px; font-size: 28px; color: var(--muted); }
+.full .row { display: flex; gap: 12px; }
+.full .row .bigbtn { margin-top: 0; }
+.tl { margin-top: 22px; display: flex; align-items: center; }
+.tl b { flex: 1; height: 7px; margin: 0 10px; border-radius: 9px; background: var(--line); }
+.tl .w { width: 62px; height: 62px; border-radius: 50%; background: var(--sky); color: var(--navy); display: grid; place-items: center; }
 .mut { color: var(--muted); }
 #ctl { position: absolute; top: 58px; right: 18px; display: flex; gap: 8px; z-index: 20; visibility: hidden; }
 #ctl .pill { height: 50px; padding: 0 18px; box-shadow: 0 6px 16px -6px rgb(0 0 0 / .3); }
 
-/* clutter */
-#clutter { left: 0; top: 0; z-index: 11; }
-.cl { position: absolute; padding: 12px 18px; border-radius: 12px; background: #fff; box-shadow: 0 8px 20px -8px rgb(0 0 0 / .35); font: 700 21px var(--body); white-space: nowrap; color: var(--ink); }
-#home { left: 0; right: 0; top: 300px; text-align: center; }
-#home p { margin-top: 40px; font: 700 76px var(--display); color: var(--navy); letter-spacing: -.02em; }
-
 /* brand */
 #disc { left: 960px; top: 540px; width: 2400px; height: 2400px; margin: -1200px 0 0 -1200px; border-radius: 50%; background: var(--white); }
-#brand img { position: absolute; left: 50%; top: 110px; width: 560px; margin-left: -280px; mix-blend-mode: multiply; }
-#brand p { position: absolute; left: 0; right: 0; top: 720px; text-align: center; font: 600 56px var(--display); color: var(--navy); letter-spacing: -.02em; }
+#brand img { position: absolute; left: 50%; top: 300px; width: 1100px; margin-left: -550px; }
+#brand p { position: absolute; left: 0; right: 0; top: 680px; text-align: center; font: 600 56px var(--display); color: var(--navy); letter-spacing: -.02em; }
 #brand p span { color: var(--blue-6); }
 
 /* call */
@@ -107,19 +80,14 @@ body { background: #e4eaf3; color: var(--ink); font-family: var(--body); overflo
 /* right-side callouts next to phone */
 .call { left: 960px; font: 700 92px/1.05 var(--display); color: var(--navy); letter-spacing: -.03em; }
 .call.b { color: var(--blue-6); }
-#wave { left: 960px; top: 640px; display: flex; gap: 10px; align-items: center; height: 120px; }
+#wave { left: 960px; top: 700px; display: flex; gap: 10px; align-items: center; height: 120px; }
 #wave i { width: 14px; height: 30px; border-radius: 9px; background: var(--blue-6); }
-#stops { left: 980px; top: 230px; }
-.st { display: flex; align-items: center; gap: 30px; height: 112px; font: 600 42px var(--display); color: #a3aec0; }
-.st i { position: relative; flex: none; width: 34px; height: 34px; border-radius: 50%; border: 7px solid var(--line); background: #fff; z-index: 1; }
-#stopbar { left: 993px; top: 270px; width: 8px; height: 448px; background: var(--line); border-radius: 4px; }
-#stopfill { left: 993px; top: 270px; width: 8px; height: 0; background: var(--tram-a); border-radius: 4px; }
-#helpcall { left: 960px; top: 380px; width: 760px; display: flex; gap: 24px; align-items: center; padding: 30px; }
+#helpcall { left: 960px; top: 640px; width: 760px; display: flex; gap: 24px; align-items: center; padding: 30px; }
 #helpcall .h { flex: none; width: 96px; height: 96px; border-radius: 50%; background: var(--help); color: #fff; display: grid; place-items: center; }
 #helpcall p { font: 600 48px/1.2 var(--display); color: var(--ink); }
 
 /* outro */
-#out-logo { left: 50%; top: 70px; width: 380px; margin-left: -190px; mix-blend-mode: multiply; }
+#out-logo { left: 50%; top: 200px; width: 700px; margin-left: -350px; }
 .pil { top: 560px; width: 470px; padding: 40px 36px; text-align: center; }
 .pil .ic { width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 26px; display: grid; place-items: center; background: var(--sky); color: var(--blue); }
 .pil h4 { font: 700 44px var(--display); color: var(--navy); letter-spacing: -.02em; }
@@ -141,60 +109,10 @@ body.render #play, body.render #bar { display: none; }
 <body>
 <div id="stage">
 
-  <!-- 1 · Jeannine -->
-  <section class="scene" id="sc1">
-    <div class="abs" id="avatar"><svg class="ico" width="58" height="58" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
-    <div class="abs disp" id="who"><span class="mask"><span>Jeannine,</span></span><span class="mask"><span class="b">78 ans.</span></span></div>
-    <div class="abs card" id="rdv">
-      <div class="top"><span>DEMAIN</span><span>RENDEZ-VOUS</span></div>
-      <div class="bd">
-        <div class="h">14h30</div>
-        <div class="pl"><svg class="ico" width="48" height="48" viewBox="0 0 24 24" style="color:var(--blue)"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Hôpital Pellegrin</div>
-        <div class="sub">Consultation · Bordeaux</div>
-      </div>
-    </div>
-    <svg class="abs" id="tline" width="1920" height="1080"></svg>
-  </section>
-
-  <!-- 2 · la peur -->
-  <section class="scene" id="sc2">
-    <div class="abs disp" id="notlegs"><span class="mask"><span>Pas ses jambes.</span></span></div>
-    <div class="abs disp" id="fear"><span class="mask"><span>La peur.</span></span></div>
-    <div class="abs card bubble" style="left:1100px;top:170px"><span class="ic"><svg class="ico" width="48" height="48" viewBox="0 0 24 24"><path d="M16 3h5v5M8 3H3v5M12 22v-8.3a4 4 0 0 0-1.17-2.87L3 3M15 9l6-6"/></svg></span>Quelle direction&nbsp;?</div>
-    <div class="abs card bubble" style="left:1180px;top:420px"><span class="ic"><svg class="ico" width="48" height="48" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><path d="M10 8.5a2 2 0 1 1 3 1.7c-.6.4-1 .8-1 1.5M12 14h.01"/></svg></span>C'est mon arrêt&nbsp;?</div>
-    <div class="abs card bubble" style="left:1060px;top:670px"><span class="ic"><svg class="ico" width="48" height="48" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg></span>Correspondance&nbsp;?</div>
-  </section>
-
-  <!-- 3 · chiffres -->
-  <section class="scene" id="sc3">
-    <div class="abs" id="nom">
-      <div class="eyebrow">Ce frein a un nom</div>
-      <h2 class="disp"><span class="mask"><span>L'anxiété cognitive.</span></span></h2>
-      <svg width="900" height="40" viewBox="0 0 900 40" style="display:block;margin:6px auto 0"><path id="squig" d="M10 26 C 120 6, 220 36, 330 18 S 560 8, 660 24 S 820 30, 890 14" fill="none" stroke="var(--orange)" stroke-width="10" stroke-linecap="round"/></svg>
-    </div>
-    <div class="abs stat" id="st1" style="left:180px">
-      <div class="ring"><svg width="260" height="260"><circle cx="130" cy="130" r="110" fill="none" stroke="var(--grid)" stroke-width="26"/><circle class="arc" cx="130" cy="130" r="110" fill="none" stroke="var(--orange)" stroke-width="26" stroke-linecap="round"/></svg><b style="color:var(--warn)"><span><span class="num">0</span>%</span></b></div>
-      <p>des seniors craignent d'être bousculés<small>UTPF-IFOP, 2024</small></p>
-    </div>
-    <div class="abs stat" id="st2" style="left:1000px">
-      <div class="ring"><svg width="260" height="260"><circle cx="130" cy="130" r="110" fill="none" stroke="var(--grid)" stroke-width="26"/><circle class="arc" cx="130" cy="130" r="110" fill="none" stroke="var(--blue-6)" stroke-width="26" stroke-linecap="round"/></svg><b style="color:var(--blue)"><span><span class="num">0</span>%</span></b></div>
-      <p>des 75 ans et plus en difficulté avec le numérique<small>INSEE, 2023</small></p>
-    </div>
-  </section>
-
-  <!-- 4 · trop d'infos -->
-  <section class="scene" id="sc4">
-    <div class="abs" id="home">
-      <svg class="ico" width="210" height="210" viewBox="0 0 24 24" style="color:var(--navy);stroke-width:1.6"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
-      <p>Jeannine reste chez elle.</p>
-    </div>
-  </section>
-  <div class="abs" id="clutter"></div>
-
   <!-- 5 · marque -->
   <section class="scene" id="brand">
     <div class="abs" id="disc"></div>
-    <img src="logo.png" alt="Connect'Age">
+    <img src="logo.png" alt="Facili'TBM">
     <p>Le trajet <span>préparé</span> pour vous, puis <span>guidé</span> pas à pas.</p>
   </section>
 
@@ -214,28 +132,25 @@ body.render #play, body.render #bar { display: none; }
     <div class="abs call b" style="top:560px"><span class="mask"><span>Rien à chercher.</span></span><span class="mask"><span>Rien à taper.</span></span></div>
   </section>
   <section class="scene" id="sc8">
-    <div class="abs call" style="top:200px"><span class="mask"><span>Une étape</span></span><span class="mask"><span>à la fois.</span></span></div>
-    <div class="abs call b" style="top:420px;font-size:64px"><span class="mask"><span>Une grande consigne.</span></span></div>
-    <div class="abs call b" style="top:510px;font-size:64px"><span class="mask"><span>Une voix qui rassure.</span></span></div>
+    <div class="abs call" style="top:150px"><span class="mask"><span>Une consigne</span></span><span class="mask"><span>à la fois.</span></span></div>
+    <div class="abs call b" style="top:390px;font-size:64px"><span class="mask"><span>Pas de chiffres.</span></span></div>
+    <div class="abs call b" style="top:480px;font-size:64px"><span class="mask"><span>Une voix qui rassure.</span></span></div>
     <div class="abs" id="wave"></div>
   </section>
   <section class="scene" id="sc9">
-    <div class="abs" id="stopbar"></div><div class="abs" id="stopfill"></div>
-    <div class="abs" id="stops"></div>
+    <div class="abs call" style="top:200px"><span class="mask"><span>Rien à compter.</span></span></div>
+    <div class="abs call b" style="top:330px"><span class="mask"><span>« Descendez. »</span></span></div>
     <div class="abs card" id="helpcall"><span class="h"><svg class="ico" width="54" height="54" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24M14.83 9.17l4.24-4.24M14.83 14.83l4.24 4.24M9.17 14.83l-4.24 4.24"/></svg></span><p>Un doute ? Le bouton <b style="color:var(--help)">Aide</b> est toujours là.</p></div>
   </section>
 
-  <!-- phone (shared by scenes 4, 7–10) -->
+  <!-- phone (shared by scenes 7–10) -->
   <div class="abs" id="phone"><div id="screen">
     <div id="notch"></div>
     <svg id="pmap" class="scr" viewBox="0 0 414 874" width="414" height="874"></svg>
     <div id="ctl">
+      <span class="pill" id="carte" style="background:#fff;color:var(--navy)"><svg class="ico" width="24" height="24" viewBox="0 0 24 24"><path d="M14.1 5.1 9.9 3 3 5.8v15.2l6.9-2.8 4.2 2.1L21 17.5V2.3z"/><path d="M9.9 3v15.2M14.1 5.1v15.2"/></svg>Carte</span>
       <span class="pill" style="background:#fff;color:var(--navy)"><svg class="ico" width="24" height="24" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>Voix</span>
       <span class="pill" id="aide" style="background:var(--help);color:#fff"><svg class="ico" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24M14.83 9.17l4.24-4.24M14.83 14.83l4.24 4.24M9.17 14.83l-4.24 4.24"/></svg>Aide</span>
-    </div>
-
-    <div class="scr" id="s-clutter" style="background:#f1f3f7">
-      <div style="padding:64px 22px 0;display:flex;justify-content:space-between;font:700 24px var(--display)"><span>≡</span><span>Itinéraires</span><span>⌕</span></div>
     </div>
 
     <div class="scr" id="s-lock" style="background:linear-gradient(170deg,#dbe9fb,#f6f8fc 70%)">
@@ -243,48 +158,48 @@ body.render #play, body.render #bar { display: none; }
       <div class="card" id="sms" style="position:absolute;left:16px;right:16px;top:330px;padding:20px 22px;border-radius:26px">
         <div style="display:flex;align-items:center;gap:12px;font:700 20px var(--body)"><span style="width:38px;height:38px;border-radius:10px;background:var(--good);color:#fff;display:grid;place-items:center"><svg class="ico" width="22" height="22" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>Allo TBM<span class="mut" style="margin-left:auto;font-weight:400">maintenant</span></div>
         <p style="margin-top:12px;font-size:23px;line-height:1.35">Bonjour Jeannine, votre trajet pour l'hôpital Pellegrin est prêt&nbsp;:</p>
-        <p id="smslink" style="margin-top:8px;font:700 23px var(--body);color:var(--blue);text-decoration:underline">connectage.app/t/med</p>
+        <p id="smslink" style="margin-top:8px;font:700 23px var(--body);color:var(--blue);text-decoration:underline">facilitbm.app/t/med</p>
       </div>
       <div id="tap" style="position:absolute;left:150px;top:520px;width:70px;height:70px;border-radius:50%;background:rgb(16 112 208 / .35);border:4px solid #fff;opacity:0"></div>
     </div>
 
     <div class="scr" id="s-preview">
       <div class="sheet">
-        <span class="pill" style="background:var(--sky);color:var(--navy);padding:8px 14px;font-size:18px">Préparé pour vous par Allo TBM</span>
-        <div class="disp" style="margin-top:14px;font:700 40px var(--display);color:var(--navy)">Mon médecin</div>
-        <div style="font-size:24px" class="mut">Hôpital Pellegrin · demain 14h30</div>
-        <div style="margin-top:18px;display:flex;align-items:center;gap:10px;font:700 22px var(--body)">
-          <span class="pill" style="background:var(--bg);padding:10px 14px">🚶 3 min</span>›<span class="badge" style="width:48px;height:48px;font-size:26px;border-radius:12px">A</span>›<span class="pill" style="background:var(--bg);padding:10px 14px">🚶 2 min</span>
-        </div>
-        <div style="margin-top:18px;padding:16px 18px;border-radius:18px;background:var(--sky);color:var(--navy);font:600 28px var(--display)">Partez à 13h55</div>
-        <div class="bigbtn" id="go">C'est parti</div>
+        <span class="pill" style="background:var(--sky);color:var(--navy);padding:8px 14px;font-size:18px">Préparé par Allo TBM</span>
+        <div class="disp" style="margin-top:14px;font:700 40px var(--display);color:var(--navy)">Hôpital Pellegrin</div>
+        <div style="font:700 26px var(--body);color:var(--good)">Partez à 13h55</div>
+        <div class="tl"><span class="w"><svg class="ico" width="34" height="34" viewBox="0 0 24 24"><path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0ZM20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0ZM16 17h4M4 13h4"/></svg></span><b></b><span class="badge" style="width:62px;height:62px;border-radius:50%;font-size:34px">A</span><b></b><span class="w"><svg class="ico" width="34" height="34" viewBox="0 0 24 24"><path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0ZM20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0ZM16 17h4M4 13h4"/></svg></span></div>
+        <div class="bigbtn" id="go" style="background:var(--blue)">C'est parti</div>
+      </div>
+    </div>
+
+    <div class="scr" id="s-walk">
+      <div class="full">
+        <div class="mid"><span class="ic" style="background:var(--navy)"><svg class="ico" width="68" height="68" viewBox="0 0 24 24"><path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0ZM20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0ZM16 17h4M4 13h4"/></svg></span><div><h3>Marchez jusqu'à l'arrêt</h3><div class="pl" style="color:var(--blue)">Hôtel de Ville</div></div></div>
+        <div class="row"><div class="bigbtn spk" style="width:76px;background:var(--sky);color:var(--navy)"><svg class="ico" width="32" height="32" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></div><div class="bigbtn" id="atstop" style="flex:1">Je suis à l'arrêt</div></div>
       </div>
     </div>
 
     <div class="scr" id="s-wait">
-      <div class="sheet">
-        <div class="seg"><i style="background:var(--navy);opacity:.4"></i><i style="background:var(--tram-a)"></i><i></i><i></i></div>
-        <div style="margin-top:12px;display:flex;justify-content:space-between;font-size:19px" class="mut"><b style="color:var(--tram-a)">Attendre le tram</b><span>Étape 2 sur 4</span></div>
-        <div style="margin-top:16px;display:flex;gap:16px;align-items:center"><span class="badge" style="width:68px;height:68px">A</span><div><div class="mut" style="font-size:21px">Attendez le tram</div><div class="disp" style="font:700 28px/1.1 var(--display)">direction<br>Mérignac Centre</div></div></div>
-        <div id="waitbox" style="margin-top:16px;padding:14px 16px;border-radius:18px;background:var(--sky);color:var(--navy);font:700 27px var(--display);position:relative;height:66px;overflow:hidden">
-          <span class="w1 abs" style="left:16px;top:16px">Il arrive dans 4 min</span><span class="w2 abs" style="left:16px;top:16px;opacity:0;color:var(--good)">Le tram arrive !</span>
+      <div class="full">
+        <div class="mid" style="position:relative">
+          <span class="ic" style="background:var(--tram-a)">A</span>
+          <div style="position:relative;height:190px;width:100%">
+            <div class="w1 abs" style="left:0;right:0"><h3>Attendez le tram</h3><div class="note" style="margin-top:4px">direction</div><div class="pl" style="margin-top:0;color:var(--tram-a)">Mérignac Centre</div></div>
+            <div class="w2 abs" style="left:0;right:0;opacity:0"><h3>Le tram arrive, montez</h3><div class="note" style="margin-top:4px">direction</div><div class="pl" style="margin-top:0;color:var(--tram-a)">Mérignac Centre</div></div>
+          </div>
         </div>
-        <p class="mut" style="margin-top:12px;font-size:20px;line-height:1.35">Montez dans le tram violet. Sur l'avant du tram, il est écrit «&nbsp;Mérignac&nbsp;».</p>
-        <div style="display:flex;gap:12px;margin-top:4px"><div id="spk" class="bigbtn" style="width:76px;background:var(--sky);color:var(--navy)"><svg class="ico" width="32" height="32" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></div><div class="bigbtn" id="board" style="flex:1">Je suis monté</div></div>
+        <div class="row"><div class="bigbtn spk" style="width:76px;background:var(--sky);color:var(--navy)"><svg class="ico" width="32" height="32" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></div><div class="bigbtn" id="board" style="flex:1">Je suis monté</div></div>
       </div>
     </div>
 
     <div class="scr" id="s-ride">
-      <div class="sheet">
-        <div id="getoff" style="position:absolute;left:14px;right:14px;top:-112px;padding:16px;border-radius:20px;background:var(--alert-soft);color:var(--alert);font:700 22px/1.3 var(--body);box-shadow:0 12px 30px -10px rgb(0 0 0 / .3);opacity:0">🔔 Prochain arrêt : c'est le vôtre.<br><span style="font-weight:400">Préparez-vous à descendre.</span></div>
-        <div class="seg"><i style="background:var(--navy);opacity:.4"></i><i style="background:var(--tram-a);opacity:.4"></i><i style="background:var(--tram-a)"></i><i></i></div>
-        <div style="margin-top:12px;display:flex;justify-content:space-between;font-size:19px" class="mut"><b style="color:var(--tram-a)">Dans le tram</b><span>Étape 3 sur 4</span></div>
-        <div style="margin-top:16px;display:flex;gap:18px;align-items:center">
-          <div style="position:relative;flex:none;width:104px;height:104px;border-radius:50%;background:var(--tram-a);color:#fff;font:700 54px var(--display)" id="cnt"></div>
-          <div><div class="disp" style="font:700 27px/1.15 var(--display)">arrêts avant<br>de descendre</div><div class="mut" style="font-size:20px;margin-top:4px">Restez assis, je vous préviens.</div></div>
+      <div class="full" id="ridebg">
+        <div class="mid" style="position:relative">
+          <div class="r1 abs" style="left:0;right:0;top:50%;transform:translateY(-50%)"><span class="ic" style="background:var(--tram-a);margin:0 auto 26px"><svg class="ico" width="68" height="68" viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16M12 3v8M8 19l-2 3M18 22l-2-3M8 15h.01M16 15h.01"/></svg></span><h3>Restez dans le tram</h3><div class="note">Je vous préviens.</div></div>
+          <div class="r2 abs" style="left:0;right:0;top:50%;transform:translateY(-50%);opacity:0"><span class="ic" style="background:var(--alert);margin:0 auto 26px"><svg class="ico" width="68" height="68" viewBox="0 0 24 24"><path d="M10.27 21a2 2 0 0 0 3.46 0M3.26 15.33A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.67C19.41 13.96 18 12.5 18 8A6 6 0 0 0 6 8c0 4.5-1.41 5.96-2.74 7.33M22 8c0-2.3-.8-4.3-2-6M4 2C2.8 3.7 2 5.7 2 8"/></svg></span><h3 style="color:var(--alert)">Prochain arrêt : descendez</h3><div class="pl" style="color:var(--alert)">Hôpital Pellegrin</div></div>
         </div>
-        <div style="margin-top:16px;padding:14px 16px;border-radius:18px;background:var(--bg);display:flex;justify-content:space-between;align-items:center"><span class="mut" style="font-size:20px">Descendez à</span><b style="font:700 23px var(--display);color:var(--tram-a)">Hôpital Pellegrin</b></div>
-        <div class="bigbtn" style="background:var(--sky);color:var(--navy)">Répéter</div>
+        <div class="row"><div class="bigbtn spk" style="width:76px;background:var(--sky);color:var(--navy)"><svg class="ico" width="32" height="32" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></div><div class="bigbtn" id="getoffbtn" style="flex:1">Je suis descendu</div></div>
       </div>
     </div>
 
@@ -314,7 +229,7 @@ body.render #play, body.render #bar { display: none; }
   <div id="cap"></div>
 </div>
 
-<button id="play" aria-label="Lire le pitch"><span><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>Lire le pitch · 1 min 55</span></button>
+<button id="play" aria-label="Lire le pitch"><span><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>Lire le pitch · <b id="len"></b></span></button>
 <div id="bar"></div>
 <audio id="vo" src="vo.mp3" preload="auto"></audio>
 
@@ -338,12 +253,12 @@ const A = '#81197f', EASE = 'power3.out'
 const tl = gsap.timeline({ paused: true, defaults: { ease: EASE, duration: .8 } })
 const show = (el, t) => tl.set(el, { autoAlpha: 1 }, t)
 const hide = (el, t, d = .5) => tl.to(el, { autoAlpha: 0, duration: d, ease: 'power2.in' }, t)
-const rise = (els, t, o = {}) => tl.from(els, { yPercent: 105, duration: .9, stagger: .12, ease: 'power4.out', ...o }, t)
+const rise = (els, t, o = {}) => tl.from(els, { yPercent: 170, duration: .9, stagger: .12, ease: 'power4.out', ...o }, t)
 const pop = (els, t, o = {}) => tl.from(els, { autoAlpha: 0, y: 40, scale: .92, duration: .7, stagger: .15, ease: 'back.out(1.6)', ...o }, t)
 const screen = (id, t, d = .45) => { tl.set('#' + id, { autoAlpha: 1 }, t).fromTo('#' + id, { opacity: 0 }, { opacity: 1, duration: d, ease: 'power2.out' }, t) }
 
 // ---------- captions (digits instead of spelled-out numbers) ----------
-const DIGITS = [[/soixante-dix-huit/g, '78'], [/Soixante-deux pour cent/g, '62 %'], [/Soixante pour cent/g, '60 %'], [/soixante-quinze/g, '75'], [/vingt minutes/g, '20 minutes']]
+const DIGITS = [[/soixante-dix-huit/g, '78']]
 const cap = $('#cap')
 for (const [id, c] of Object.entries(CUES)) {
   const parts = c.text.match(/[^.!?]+[.!?]+/g) ?? [c.text]
@@ -369,105 +284,13 @@ function capAt(t) {
   return null
 }
 
-// ---------- 1 · Jeannine, 78 ans ----------
-const STOPS = ['Hôtel de Ville', 'Palais de Justice', 'Mériadeck', 'Saint-Bruno', 'Gaviniès', 'Hôpital Pellegrin']
-const X0 = 280, DX = 272, Y = 830
-$('#tline').innerHTML = `
-  <circle cx="160" cy="${Y}" r="44" fill="${A}" id="tA"/><text x="160" y="${Y + 15}" text-anchor="middle" font-family="Lexend" font-weight="700" font-size="44" fill="#fff">A</text>
-  <path id="trk" d="M${X0} ${Y} H${X0 + 5 * DX}" stroke="${A}" stroke-width="12" stroke-linecap="round" fill="none"/>
-  ${STOPS.map((s, i) => `<g class="stp"><circle cx="${X0 + i * DX}" cy="${Y}" r="16" fill="#fff" stroke="${A}" stroke-width="7"/><text class="stopname" x="${X0 + i * DX}" y="${Y + 64}" text-anchor="middle">${s}</text></g>`).join('')}
-  <g id="dur"><rect x="${X0 + 2.5 * DX - 80}" y="${Y - 110}" width="160" height="56" rx="28" fill="#fff" stroke="#d3dce9" stroke-width="2"/><text x="${X0 + 2.5 * DX}" y="${Y - 72}" text-anchor="middle" font-family="Lexend" font-weight="600" font-size="28" fill="#0b1b33">20 min</text></g>
-  <g id="tram"><rect x="-52" y="${Y - 24}" width="104" height="48" rx="24" fill="${A}" stroke="#fff" stroke-width="5"/><circle cx="-22" cy="${Y}" r="6" fill="#fff"/><circle cx="0" cy="${Y}" r="6" fill="#fff"/><circle cx="22" cy="${Y}" r="6" fill="#fff"/></g>`
-const trkLen = 5 * DX
-show('#sc1', 0)
-tl.from('#avatar', { scale: 0, duration: .7, ease: 'back.out(2)' }, .5)
-rise('#who .mask > span', at('s1') + .2)
-tl.from('#rdv', { autoAlpha: 0, y: 80, rotate: 4, duration: 1.1, ease: 'expo.out' }, P('s1', 'Demain'))
-tl.from('#rdv .pl, #rdv .sub', { autoAlpha: 0, x: -20, stagger: .1 }, P('s1', "rendez-vous") )
-// tram line
-tl.to('#who, #avatar', { y: -90, duration: 1 }, at('s2') - .4)
-tl.to('#rdv', { y: -70, scale: .9, transformOrigin: '100% 0', duration: 1 }, at('s2') - .4)
-tl.fromTo('#trk', { strokeDasharray: trkLen, strokeDashoffset: trkLen }, { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut' }, at('s2'))
-tl.from('#tA', { scale: 0, transformOrigin: '160px 830px', duration: .6, ease: 'back.out(2)' }, at('s2'))
-tl.from('#tline text:first-of-type', { opacity: 0 }, at('s2') + .2)
-tl.from('.stp', { opacity: 0, scale: 0, transformOrigin: 'center', stagger: .12, duration: .5, ease: 'back.out(2)' }, at('s2') + .2)
-tl.from('#dur', { opacity: 0, y: 20 }, P('s2', 'en vingt'))
-tl.fromTo('#tram', { x: X0, opacity: 0 }, { x: X0 + DX * 1.3, opacity: 1, duration: 2.2, ease: 'power1.inOut' }, P('s2', 'emmène'))
-// "Pourtant, elle hésite." — the tram backs off, colour drains away.
-tl.to('#tram', { x: X0, duration: 1.2, ease: 'power3.inOut' }, P('s2', 'Pourtant'))
-tl.to('#trk, .stp circle', { stroke: '#c5cedb', duration: 1 }, P('s2', 'Pourtant'))
-tl.to('#tram rect, #tA', { fill: '#a3aec0', duration: 1 }, P('s2', 'Pourtant'))
-tl.to('#rdv .top', { backgroundColor: '#8a97ab', duration: 1 }, P('s2', 'Pourtant'))
-hide('#sc1', at('s3') - .2, .6)
-
-// ---------- 2 · la peur ----------
-show('#sc2', at('s3') - .1)
-rise('#notlegs .mask > span', at('s3'))
-tl.to('#notlegs', { opacity: .35, duration: .6 }, P('s3', 'À cause'))
-rise('#fear .mask > span', P('s3', 'À cause'))
-const bubbles = $$('#sc2 .bubble')
-;['se tromper', 'rater', 'se perdre'].forEach((ph, i) => {
-  pop(bubbles[i], P('s3', ph) - .1)
-  tl.to(bubbles[i], { y: '+=10', rotate: i % 2 ? 1.2 : -1.2, duration: 1.4, ease: 'sine.inOut', yoyo: true, repeat: 5 }, P('s3', ph) + .6)
-})
-hide('#sc2', at('s4') - .3, .6)
-
-// ---------- 3 · anxiété cognitive + chiffres ----------
-show('#sc3', at('s4') - .2)
-tl.from('#nom .eyebrow', { autoAlpha: 0, y: 20 }, at('s4') - .1)
-rise('#nom h2 .mask > span', P('s4', "l'anxiété"))
-const squigLen = 920
-tl.fromTo('#squig', { strokeDasharray: squigLen, strokeDashoffset: squigLen }, { strokeDashoffset: 0, duration: 1, ease: 'power2.inOut' }, P('s4', "l'anxiété") + .7)
-tl.to('#nom', { y: -40, scale: .78, duration: 1 }, P('s4', 'Soixante pour'))
-const C = 2 * Math.PI * 110
-;[['#st1', 60, 'Soixante pour'], ['#st2', 62, 'Soixante-deux']].forEach(([sel, v, ph]) => {
-  const t = P('s4', ph) - .2, o = { n: 0 }, num = $(sel + ' .num')
-  pop(sel, t, { y: 60 })
-  tl.fromTo(sel + ' .arc', { strokeDasharray: C, strokeDashoffset: C }, { strokeDashoffset: C * (1 - v / 100), duration: 1.6, ease: 'power2.out' }, t + .2)
-  tl.to(o, { n: v, duration: 1.6, ease: 'power2.out', onUpdate: () => { num.textContent = Math.round(o.n) } }, t + .2)
-})
-hide('#sc3', at('s5') - .3, .6)
-
-// ---------- 4 · trop d'infos ----------
 const PH = { x: 740, y: 90 }  // phone resting position (center)
-const NOISE = [
-  ['Ligne 9 · 2 min', '#fff'], ['⚠ Perturbation ligne C', '#fdeedd'], ['Correspondance 13:43 → 13:51', '#fff'], ['Tarifs & abonnements', '#fff'],
-  ['Liane 1 · 4 min · 11 min · 19 min', '#fff'], ['Info trafic (3)', '#ffe4e6'], ['Quai 2 · voie B', '#fff'], ['Itinéraire bis +6 min', '#fff'],
-  ['🔔 Activer les notifications ?', '#e3f1ff'], ['Bus 16 dévié', '#fdeedd'], ['Accepter les cookies', '#fff'], ['Ticket mobile → Payer', '#fff'],
-  ['Tram B · direction Pessac ?', '#fff'], ['Arrêt reporté', '#fdeedd'], ['Mettre à jour l\'application', '#e3f1ff'], ['V³ station pleine', '#fff'],
-  ['Travaux cours de l\'Intendance', '#fdeedd'], ['Mode accessible ⚙', '#fff'], ['Itinéraire 2/5', '#fff'], ['Ligne 4 · retard', '#ffe4e6'],
-]
-const clutter = $('#clutter')
-NOISE.forEach(([t, bg], i) => {
-  const el = document.createElement('div'); el.className = 'cl'; el.textContent = t; el.style.background = bg
-  // fill the phone first, then spill out around it
-  const inside = i < 10, a = i * 2.39
-  const x = inside ? 770 + (i % 2) * 120 + Math.sin(a) * 30 : 960 + Math.cos(a) * (360 + (i % 3) * 70) - 140
-  const y = inside ? 190 + i * 66 : 540 + Math.sin(a) * (300 + (i % 4) * 40)
-  el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.rotate = ((i * 37) % 13 - 6) + 'deg'
-  clutter.appendChild(el)
-})
-const cls = $$('#clutter .cl')
-show('#sc4', at('s5') - .3)
-show('#phone', at('s5') - .3)
-tl.fromTo('#phone', { x: 0, y: 1100, rotate: 0 }, { x: 0, y: 0, rotate: 0, duration: 1.1, ease: 'expo.out' }, at('s5') - .3)
-show('#s-clutter', at('s5') - .3)
-tl.from(cls, { autoAlpha: 0, scale: .4, y: -30, duration: .5, stagger: { each: (P('s5', 'Alors') - at('s5') - .4) / cls.length, ease: 'power2.in' }, ease: 'back.out(2.2)' }, at('s5') + .1)
-tl.to('#phone', { x: '+=6', duration: .06, repeat: 13, yoyo: true, ease: 'none' }, P('s5', 'au mauvais') )
-// "Alors Jeannine reste chez elle." — everything falls away.
-const fall = P('s5', 'Alors') - .2
-tl.to(cls, { y: '+=900', rotate: () => gsap.utils.random(-50, 50), autoAlpha: 0, duration: 1, stagger: .02, ease: 'power2.in' }, fall)
-tl.to('#phone', { y: 1100, duration: .9, ease: 'power3.in' }, fall + .1)
-tl.set('#s-clutter', { autoAlpha: 0 }, fall + 1)
-tl.from('#home svg', { autoAlpha: 0, scale: .6, y: 40, duration: .9, ease: 'back.out(1.8)' }, fall + .7)
-tl.from('#home p', { autoAlpha: 0, y: 30 }, fall + .9)
-hide('#sc4', at('s6') - .5, .5)
 
-// ---------- 5 · Connect'Age ----------
+// ---------- 5 · Facili'TBM ----------
 show('#brand', at('s6') - .3)
 tl.fromTo('#disc', { scale: 0 }, { scale: 1, duration: 1.2, ease: 'expo.inOut' }, at('s6') - .3)
 tl.from('#brand img', { autoAlpha: 0, scale: .7, rotate: -8, duration: 1.2, ease: 'expo.out' }, at('s6') + .3)
-tl.from('#brand p', { autoAlpha: 0, y: 30, duration: .9 }, P('s6', 'le trajet'))
+tl.from('#brand p', { autoAlpha: 0, y: 30, duration: .9 }, P('s6', 'Le trajet'))
 tl.to('#brand img', { scale: 1.04, duration: 3, ease: 'sine.inOut' }, at('s6') + 1.5)
 hide('#brand', at('s7') - .4, .6)
 
@@ -494,6 +317,7 @@ hide('#sc6', at('s8') - .4, .5)
 // ---------- 7 · le SMS ----------
 const PX = 380 - PH.x   // phone sits on the left for the walkthrough
 show('#sc7', at('s8') - .3)
+show('#phone', at('s8') - .3)
 show('#s-lock', at('s8') - .3)
 tl.fromTo('#phone', { x: PX, y: 1100, rotate: -6 }, { x: PX, y: 0, rotate: 0, duration: 1.2, ease: 'expo.out' }, at('s8') - .3)
 tl.from('#sms', { y: -260, autoAlpha: 0, duration: .9, ease: 'back.out(1.3)' }, P('s8', 'elle reçoit'))
@@ -505,6 +329,7 @@ tl.to('#tap', { scale: 2.2, opacity: 0, duration: .5 }, P('s8', 'Son trajet') - 
 screen('s-preview', P('s8', 'Son trajet'))
 screen('pmap', P('s8', 'Son trajet'))
 show('#ctl', P('s8', 'Son trajet'))
+tl.set('#carte', { display: 'none' }, 0)
 tl.from('#s-preview .sheet', { y: 300, duration: .8, ease: 'expo.out' }, P('s8', 'Son trajet'))
 tl.set('#s-lock', { autoAlpha: 0 }, P('s8', 'Son trajet') + .5)
 rise('#sc7 .call.b .mask > span', P('s8', 'Son trajet') + .1)
@@ -522,53 +347,49 @@ $('#pmap').innerHTML = `
   <g transform="translate(372 500)"><path d="M0 0 a18 18 0 1 1 0.1 0" fill="#002862"/></g>
   <circle id="me" cx="110" cy="170" r="13" fill="#1070d0" stroke="#fff" stroke-width="5"/>`
 
-// ---------- 8 · guidage ----------
+// ---------- 8 · guidage : plein écran, une consigne ----------
 show('#sc8', at('s9') - .3)
 tl.to('#go', { scale: .94, duration: .15, yoyo: true, repeat: 1 }, at('s9') - .2)
-tl.to('#me', { attr: { cx: 60, cy: 250 }, duration: 1.4, ease: 'power1.inOut' }, at('s9'))
-screen('s-wait', at('s9') + .1)
-tl.from('#s-wait .sheet', { y: 60, duration: .7 }, at('s9') + .1)
-tl.set('#s-preview', { autoAlpha: 0 }, at('s9') + .6)
-rise('#sc8 .call:nth-child(1) .mask > span', P('s9', 'une étape'))
-rise('#sc8 .call:nth-child(2) .mask > span', P('s9', 'Une grande'))
-tl.to('#s-wait .disp', { color: '#81197f', duration: .4, yoyo: true, repeat: 1 }, P('s9', 'Une grande'))
+tl.set('#carte', { display: 'inline-flex' }, at('s9'))
+screen('s-walk', at('s9'))
+tl.from('#s-walk .mid', { y: 40, duration: .7 }, at('s9'))
+tl.set('#s-preview, #pmap', { autoAlpha: 0 }, at('s9') + .5)
+rise('#sc8 .call:nth-child(1) .mask > span', P('s9', 'Une seule'))
+tl.to('#s-walk .mid h3, #s-walk .pl', { scale: 1.08, duration: .4, yoyo: true, repeat: 1, ease: 'sine.inOut' }, P('s9', 'en grand'))
+rise('#sc8 .call:nth-child(2) .mask > span', P('s9', 'Pas de'))
 rise('#sc8 .call:nth-child(3) .mask > span', P('s9', 'Une voix'))
+tl.to('#atstop', { backgroundColor: '#13753a', duration: .3 }, P('s9', 'Une voix') - .3)
+tl.to('#atstop', { scale: .94, duration: .15, yoyo: true, repeat: 1 }, at('s10') - .5)
+screen('s-wait', at('s10') - .4)
+tl.from('#s-wait .mid', { y: 40, duration: .7 }, at('s10') - .4)
+tl.set('#s-walk', { autoAlpha: 0 }, at('s10'))
 // voice line: waveform + speaker button lights up, then the tram arrives
 for (let i = 0; i < 18; i++) { const b = document.createElement('i'); $('#wave').appendChild(b) }
 tl.from('#wave', { autoAlpha: 0, x: -20, duration: .5 }, at('s10') - .3)
 $$('#wave i').forEach((b, i) => tl.to(b, { height: () => 30 + Math.abs(Math.sin(i * 1.7)) * 80, duration: .22 + (i % 4) * .05, yoyo: true, repeat: Math.floor(CUES.s10.dur / .25), ease: 'sine.inOut' }, at('s10') + i * .02))
-tl.to('#spk', { backgroundColor: '#1070d0', color: '#fff', duration: .3 }, at('s10') - .1)
-tl.to('#spk', { backgroundColor: '#e3f1ff', color: '#002862', duration: .3 }, end('s10'))
+tl.to('#s-wait .spk', { backgroundColor: '#1070d0', color: '#fff', duration: .3 }, at('s10') - .1)
+tl.to('#s-wait .spk', { backgroundColor: '#e3f1ff', color: '#002862', duration: .3 }, end('s10'))
 tl.to('#wave', { autoAlpha: 0, duration: .4 }, end('s10') + .1)
-tl.to('#waitbox .w1', { y: -50, opacity: 0, duration: .4 }, P('s10', 'Sur l\'avant'))
-tl.fromTo('#waitbox .w2', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: .4 }, P('s10', 'Sur l\'avant'))
-tl.to('#waitbox', { backgroundColor: '#e3f4e9', duration: .4 }, P('s10', 'Sur l\'avant'))
+tl.to('#s-wait .w1', { y: -40, opacity: 0, duration: .4 }, P('s10', 'Sur l\'avant'))
+tl.fromTo('#s-wait .w2', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .4 }, P('s10', 'Sur l\'avant'))
 tl.to('#board', { backgroundColor: '#13753a', scale: 1.04, duration: .5, yoyo: true, repeat: 3, ease: 'sine.inOut' }, P('s10', 'Sur l\'avant') + .3)
 hide('#sc8', at('s11') - .4, .5)
 
 // ---------- 9 · dans le tram + aide ----------
-const RIDE = STOPS.slice(1)
-$('#stops').innerHTML = RIDE.map(s => `<div class="st"><i></i>${s}</div>`).join('')
 show('#sc9', at('s11') - .3)
 screen('s-ride', at('s11') - .3)
 tl.set('#s-wait', { autoAlpha: 0 }, at('s11') + .2)
-tl.from('#stops .st, #stopbar', { autoAlpha: 0, x: 30, stagger: .08, duration: .5 }, at('s11') - .2)
-const cnt = $('#cnt'), rideT0 = at('s11') - .3, rideStep = (P('s11', 'Et au') - rideT0) / 3.4
-const meXY = MAP.slice(1)
-RIDE.forEach((s, i) => {
-  const t = i < 4 ? rideT0 + i * rideStep : at('s12') - .3
-  tl.to(`#stops .st:nth-child(${i + 1})`, { color: '#0b1b33', duration: .3 }, t)
-  tl.to(`#stops .st:nth-child(${i + 1}) i`, { borderColor: A, backgroundColor: i === RIDE.length - 1 ? A : '#fff', duration: .3 }, t)
-  tl.to('#stopfill', { height: i * 112, duration: .5, ease: 'power2.inOut' }, t - .4)
-  tl.to('#me', { attr: { cx: meXY[i][0], cy: meXY[i][1] }, duration: .6, ease: 'power2.inOut' }, t - .4)
-})
-// counter 4 → 3 → 2 → 1 → ✓ inside the purple circle (state-from-time so seeking works)
-const rideN = t => t >= at('s12') - .3 ? 0 : 4 - Math.min(3, Math.max(0, Math.floor((t - rideT0) / rideStep)))
-tl.to('#getoff', { opacity: 1, y: 0, duration: .5, ease: 'back.out(2)' }, rideT0 + 3 * rideStep)
-tl.from('#getoff', { y: 30, duration: .5 }, rideT0 + 3 * rideStep)
+rise('#sc9 .call:nth-child(1) .mask > span', at('s11'))
+// "Au bon moment" — the whole screen turns amber: get off at the next stop.
+const off = P('s11', 'Au bon')
+tl.to('#ridebg', { backgroundColor: '#fff1d1', duration: .5 }, off)
+tl.to('#s-ride .r1', { opacity: 0, duration: .3 }, off)
+tl.fromTo('#s-ride .r2', { opacity: 0, scale: .9 }, { opacity: 1, scale: 1, duration: .5, ease: 'back.out(2)' }, off + .2)
+tl.to('#s-ride .r2 .ic', { rotate: 14, duration: .1, yoyo: true, repeat: 7, ease: 'sine.inOut' }, off + .5)
+tl.to('#getoffbtn', { backgroundColor: '#13753a', duration: .3 }, off + .4)
+rise('#sc9 .call:nth-child(2) .mask > span', P('s11', 'descendez'))
 pop('#helpcall', P('s11', 'Et au'))
 tl.to('#aide', { scale: 1.18, duration: .35, yoyo: true, repeat: 5, ease: 'sine.inOut' }, P('s11', 'bouton') - .2)
-tl.to('#stops, #stopbar, #stopfill', { opacity: 0, duration: .4 }, P('s11', 'Et au') - .3)
 hide('#sc9', at('s12') - .3, .4)
 
 // ---------- 10 · arrivée ----------
@@ -599,11 +420,10 @@ function render(t) {
   tl.seek(t, false)
   const c = capAt(t)
   if (c) { cap.textContent = c[0]; cap.className = c[1] === 'A' ? 'app' : ''; cap.style.opacity = 1 } else cap.style.opacity = 0
-  const n = rideN(t)
-  cnt.innerHTML = n ? `<span style="position:absolute;inset:0;display:grid;place-items:center">${n}</span>` : '<span style="position:absolute;inset:0;display:grid;place-items:center">✓</span>'
 }
 window.seek = render
 window.TOTAL = TOTAL
+$('#len').textContent = `${Math.floor(TOTAL / 60)} min ${String(Math.round(TOTAL % 60)).padStart(2, '0')}`
 render(0)
 
 if (!RENDER) {

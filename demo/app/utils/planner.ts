@@ -1,7 +1,7 @@
 // Mini journey-planner over the demo TBM network (real BdX stop coords, lines A/B/C).
 // Used by the /agent portal: it turns the caller's answers into the best/optimised trip
 // (shortest total time, fewest changes, level-access aware) in the same Step[] format
-// the Connect'Age traveller app renders. Swap the schedule for TBM SIRI/GTFS-RT later.
+// the Facili'TBM traveller app renders. Swap the schedule for TBM SIRI/GTFS-RT later.
 
 import type { LatLng, LineId, Step, Trip } from './trips'
 import { HOME } from './trips'

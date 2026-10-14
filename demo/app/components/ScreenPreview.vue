@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { motion } from 'motion-v'
-import { ArrowLeft, Footprints, Heart, Repeat } from 'lucide-vue-next'
+import { ArrowLeft, Footprints, Heart } from 'lucide-vue-next'
 
 const props = defineProps<{ trip: Trip, invite?: { by: string | null, at: string | null } | null }>()
 const emit = defineEmits<{ back: [], go: [] }>()
@@ -18,21 +18,17 @@ const leaveAt = computed(() => {
   d.setHours(h!, m! - mins - MARGIN, 0, 0)
   return d > new Date() ? d : null
 })
-const arrival = computed(() => clock(new Date((leaveAt.value?.getTime() ?? Date.now()) + mins * 60_000)))
 
-type PreviewLeg = { kind: 'walk', text: string, sub: string } | { kind: 'ride', line: LineId, change: boolean, text: string, sub: string }
+type PreviewLeg = { kind: 'walk', label: string } | { kind: 'ride', line: LineId, label: string }
 
-// Collapse wait+ride into one readable line per leg.
-const legs = computed<PreviewLeg[]>(() => props.trip.steps.flatMap<PreviewLeg>((s, i) => {
-  if (s.kind === 'walk') return [{ kind: 'walk' as const, text: `Marcher ${s.minutes} min`, sub: `jusqu'à ${s.to}` }]
-  if (s.kind === 'ride') {
-    const change = props.trip.steps[i - 2]?.kind === 'ride'
-    return [{ kind: 'ride' as const, line: s.line, change, text: `${LINES[s.line].name} · ${s.stops.length - 1} arrêt${s.stops.length > 2 ? 's' : ''}`, sub: `direction ${s.direction}` }]
-  }
+// Icons only: walk → tram → walk. The words stay for screen readers.
+const legs = computed<PreviewLeg[]>(() => props.trip.steps.flatMap<PreviewLeg>((s) => {
+  if (s.kind === 'walk') return [{ kind: 'walk' as const, label: `Marcher jusqu'à ${s.to}` }]
+  if (s.kind === 'ride') return [{ kind: 'ride' as const, line: s.line, label: `${LINES[s.line].name}, direction ${s.direction}` }]
   return []
 }))
 
-onMounted(() => say(`${props.invite?.by ? `${props.invite.by} a préparé votre trajet. ` : ''}Trajet vers ${props.trip.place}, ${mins} minutes. ${leaveAt.value ? `Partez à ${clock(leaveAt.value)}.` : ''} Appuyez sur C'est parti quand vous êtes prêt.`))
+onMounted(() => say(`${props.invite?.by ? `${props.invite.by} a préparé votre trajet. ` : ''}Trajet vers ${props.trip.place}. ${leaveAt.value ? `Partez à ${clock(leaveAt.value)}.` : ''} Appuyez sur C'est parti quand vous êtes prêt.`))
 </script>
 
 <template>
@@ -55,29 +51,22 @@ onMounted(() => say(`${props.invite?.by ? `${props.invite.by} a préparé votre 
       <p class="mt-1 text-xl text-ink">
         <template v-if="leaveAt">Partez à <strong class="text-good">{{ clock(leaveAt) }}</strong></template>
         <template v-else><strong class="text-good">Partez maintenant</strong></template>
-        · arrivée {{ arrival }}
       </p>
 
-      <ol class="mt-4">
-        <motion.li
-          v-for="(l, i) in legs" :key="i" class="flex gap-3"
-          :initial="{ opacity: 0, x: -16 }" :animate="{ opacity: 1, x: 0 }" :transition="{ delay: 0.2 + i * 0.07, duration: 0.45, ease }"
-        >
-          <div class="flex w-9 flex-col items-center">
-            <LineBadge v-if="l.kind === 'ride'" :line="l.line" :size="36" />
-            <span v-else class="grid size-9 place-items-center rounded-full bg-bg text-navy"><Footprints :size="20" /></span>
-            <span v-if="i < legs.length - 1" class="my-1 min-h-3 w-1 flex-1 rounded-full bg-line" />
-          </div>
-          <div class="pb-2.5 pt-0.5">
-            <p class="text-lg font-bold leading-tight">
-              <span v-if="l.kind === 'ride' && l.change" class="mr-1 inline-flex items-center gap-1 text-alert"><Repeat :size="16" />Changement :</span>{{ l.text }}
-            </p>
-            <p class="text-base leading-tight text-muted">{{ l.sub }}</p>
-          </div>
-        </motion.li>
+      <ol class="mt-5 flex items-center" aria-label="Le trajet">
+        <template v-for="(l, i) in legs" :key="i">
+          <motion.li
+            :aria-label="l.label"
+            :initial="{ opacity: 0, scale: 0.6 }" :animate="{ opacity: 1, scale: 1 }" :transition="{ delay: 0.2 + i * 0.08, duration: 0.4, ease }"
+          >
+            <LineBadge v-if="l.kind === 'ride'" :line="l.line" :size="56" />
+            <span v-else class="grid size-14 place-items-center rounded-full bg-sky text-navy"><Footprints :size="30" /></span>
+          </motion.li>
+          <li v-if="i < legs.length - 1" aria-hidden="true" class="mx-2 h-1.5 flex-1 rounded-full bg-line" />
+        </template>
       </ol>
 
-      <button class="press mt-3 h-18 w-full rounded-2xl bg-blue font-display text-2xl font-semibold text-white shadow-xl shadow-blue/30" @click="emit('go')">
+      <button class="press mt-6 h-18 w-full rounded-2xl bg-blue font-display text-2xl font-semibold text-white shadow-xl shadow-blue/30" @click="emit('go')">
         C'est parti
       </button>
     </motion.div>

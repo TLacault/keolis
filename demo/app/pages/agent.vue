@@ -231,7 +231,7 @@ const canAdvance = computed(() => {
   <div class="min-h-dvh bg-bg font-sans text-ink">
     <header class="sticky top-0 z-20 bg-navy text-white shadow-[0_4px_20px_-8px_rgb(0_0_0/.5)]">
       <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
-        <img src="/logo.png" alt="Allo TBM" class="h-11 rounded-xl bg-white p-1">
+        <img src="/logo.png" alt="Allo TBM" class="h-10 rounded-xl bg-white px-2 py-1">
         <div class="leading-tight">
           <p class="font-display text-lg font-bold">Allo TBM · Portail conseiller</p>
           <p class="text-sm text-white/70">Préparez le trajet de l'appelant en suivant le script de l'appel</p>
